@@ -88,7 +88,7 @@ try:
         try:
             new_entry = request.forms.get('entry')
 
-            element_id = 1 # you need to generate a entry number
+            element_id = max(board.keys()) + 1
             add_new_element_to_store(element_id, new_entry)
 
             # you should propagate something
@@ -142,7 +142,8 @@ try:
         
         # Handle requests
         # for example action == "ADD":
-        #add_new_element_to_store(element_id, entry, True)
+        if action == "ADD":
+            add_new_element_to_store(element_id, entry, True)
         
         # Modify the board entry 
         #modify_element_in_store(element_id, entry, True)
