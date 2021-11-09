@@ -43,7 +43,7 @@ try:
         global board, node_id
         success = False
         try:
-            board[entry_sequence] = modified_element
+            board[int(entry_sequence)] = modified_element
             print("Board after modify; {}".format(board))
             success = True
         except Exception as e:
@@ -54,7 +54,7 @@ try:
         global board, node_id
         success = False
         try:
-            board.pop(entry_sequence)
+            board.pop(int(entry_sequence))
             print("Board after delete; {}".format(board))
             success = True
         except Exception as e:
@@ -124,9 +124,8 @@ try:
 	    
         print "the delete option is ", delete_option
         
-        print (type(delete_option))
         #call either delete or modify
-        if delete_option == 0:
+        if delete_option == "0":
             print("Will modify")
             modify_element_in_store(element_id, entry, True)
             thread = Thread(target=propagate_to_vessels, args=('/propagate/MODIFY/' + str(element_id), {'entry': entry}, 'POST'))
