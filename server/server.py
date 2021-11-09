@@ -33,7 +33,7 @@ try:
         success = False
         try:
            if entry_sequence not in board:
-                board[entry_sequence] = element
+                board[int(entry_sequence)] = element
                 success = True
         except Exception as e:
             print e
@@ -44,7 +44,6 @@ try:
         success = False
         try:
             board[int(entry_sequence)] = modified_element
-            print("Board after modify; {}".format(board))
             success = True
         except Exception as e:
             print e
@@ -55,7 +54,6 @@ try:
         success = False
         try:
             board.pop(int(entry_sequence))
-            print("Board after delete; {}".format(board))
             success = True
         except Exception as e:
             print e
@@ -90,9 +88,9 @@ try:
         try:
             new_entry = request.forms.get('entry')
             if len(board) != 0:
-                element_id = max(board.keys()) + 1
+                element_id = int(max(board.keys()) + 1)
             else:
-                element_id = 1
+                element_id = 0
             add_new_element_to_store(element_id, new_entry)
 
             # you should propagate something
@@ -128,14 +126,12 @@ try:
         
         #call either delete or modify
         if delete_option == "0":
-            print("Will modify")
             modify_element_in_store(element_id, entry, True)
             thread = Thread(target=propagate_to_vessels, args=('/propagate/MODIFY/' + str(element_id), {'entry': entry}, 'POST'))
             thread.daemon = True
             thread.start()
         
         if delete_option == "1":
-            print("Will delete")
             delete_element_from_store(element_id, True)
             thread = Thread(target=propagate_to_vessels, args=('/propagate/DELETE/' + str(element_id), {'entry': entry}, 'POST'))
             thread.daemon = True
