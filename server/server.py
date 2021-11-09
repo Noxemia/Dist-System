@@ -44,6 +44,7 @@ try:
         success = False
         try:
             board[entry_sequence] = modified_element
+            print("Board after modify; {}".format(board))
             success = True
         except Exception as e:
             print e
@@ -54,6 +55,7 @@ try:
         success = False
         try:
             board.pop(entry_sequence)
+            print("Board after delete; {}".format(board))
             success = True
         except Exception as e:
             print e
@@ -124,13 +126,15 @@ try:
         
         #call either delete or modify
         if delete_option == 0:
-            modify_element_in_store(element_id, entry, False)
+            print("Will modify")
+            modify_element_in_store(element_id, entry, True)
             thread = Thread(target=propagate_to_vessels, args=('/propagate/MODIFY/' + str(element_id), {'entry': entry}, 'POST'))
             thread.daemon = True
             thread.start()
         
         if delete_option == 1:
-            delete_element_from_store(element_id, False)
+            print("Will delete")
+            delete_element_from_store(element_id, True)
             thread = Thread(target=propagate_to_vessels, args=('/propagate/DELETE/' + str(element_id), {'entry': entry}, 'POST'))
             thread.daemon = True
             thread.start()
