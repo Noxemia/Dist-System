@@ -124,6 +124,7 @@ try:
 	    
         print "the delete option is ", delete_option
         
+        print (type(delete_option))
         #call either delete or modify
         if delete_option == 0:
             print("Will modify")
@@ -132,7 +133,7 @@ try:
             thread.daemon = True
             thread.start()
         
-        if delete_option == 1:
+        if delete_option == "1":
             print("Will delete")
             delete_element_from_store(element_id, True)
             thread = Thread(target=propagate_to_vessels, args=('/propagate/DELETE/' + str(element_id), {'entry': entry}, 'POST'))
