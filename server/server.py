@@ -89,8 +89,10 @@ try:
         global board, node_id
         try:
             new_entry = request.forms.get('entry')
-
-            element_id = max(board.keys()) + 1
+            if len(board) != 0:
+                element_id = max(board.keys()) + 1
+            else:
+                element_id = 1
             add_new_element_to_store(element_id, new_entry)
 
             # you should propagate something
