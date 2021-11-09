@@ -43,7 +43,7 @@ try:
         global board, node_id
         success = False
         try:
-            print("You need to implement the modify function")
+            board[entry_sequence] = modified_element
             success = True
         except Exception as e:
             print e
@@ -53,7 +53,7 @@ try:
         global board, node_id
         success = False
         try:
-            print("You need to implement the delete function")
+            board.pop(entry_sequence)
             success = True
         except Exception as e:
             print e
@@ -123,15 +123,21 @@ try:
         print "the delete option is ", delete_option
         
         #call either delete or modify
-        modify_element_in_store(element_id, entry, False)
+        if delete_option == 0:
+            modify_element_in_store(element_id, entry, False)
+            thread = Thread(target=propagate_to_vessels, args=('/propagate/MODIFY/' + str(element_id), {'entry': entry}, 'POST'))
+            thread.daemon = True
+            thread.start()
         
-        delete_element_from_store(element_id, False)
+        if delete_option == 1:
+            delete_element_from_store(element_id, False)
+            thread = Thread(target=propagate_to_vessels, args=('/propagate/DELETE/' + str(element_id), {'entry': entry}, 'POST'))
+            thread.daemon = True
+            thread.start()
+        
         
         #propage to other nodes
-        thread = Thread(target=propagate_to_vessels,
-                            args=('/propagate/DELETEorMODIFY/' + str(element_id), {'entry': entry}, 'POST'))
-        thread.daemon = True
-        thread.start()
+ 
 
     #With this function you handle requests from other nodes like add modify or delete
     @app.post('/propagate/<action>/<element_id>')
@@ -146,10 +152,12 @@ try:
             add_new_element_to_store(element_id, entry, True)
         
         # Modify the board entry 
-        #modify_element_in_store(element_id, entry, True)
+        if action == "MODIFY":
+            modify_element_in_store(element_id, entry, True)
         
         # Delete the entry from the board
-        #delete_element_from_store(element_id, True)
+        if action == "DELETE":
+            delete_element_from_store(element_id, True)
 
 
     # ------------------------------------------------------------------------------------------------------
