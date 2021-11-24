@@ -193,6 +193,7 @@ try:
                 if not success:
                     print "\n\nCould not contact vessel {}\n\n".format(vessel_id)
 
+    @app.before_first_request
     def leader_election():
         print("xd")
 
