@@ -193,13 +193,11 @@ try:
                 if not success:
                     print "\n\nCould not contact vessel {}\n\n".format(vessel_id)
 
-    @app.before_first_request
     def leader_election():
         print("xd")
 
         
 
-    leader_election()
 
     # ------------------------------------------------------------------------------------------------------
     # EXECUTION
@@ -224,6 +222,7 @@ try:
 
         try:
             run(app, host=vessel_list[str(node_id)], port=port)
+            before_first_request()
         except Exception as e:
             print e
     # ------------------------------------------------------------------------------------------------------
