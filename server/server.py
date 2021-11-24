@@ -67,11 +67,27 @@ try:
     # a single example (index) for get, and one for post
     # ------------------------------------------------------------------------------------------------------
     # No need to modify this
+
+    leader_init = False
+
     @app.route('/')
     def index():
         global board, node_id
+        if(not leader_election):
+            leader_election()
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
                         board_dict=sorted({"0": board, }.iteritems()), members_name_string='YOUR NAME')
+
+    @app.get("/leader_election")
+    def leader():
+        leader_init = True
+
+
+
+    def leader_election():
+        # leader_init = True
+        print("xd")
+
 
     @app.get('/board')
     def get_board():
@@ -192,9 +208,6 @@ try:
                 success = contact_vessel(vessel_ip, path, payload, req)
                 if not success:
                     print "\n\nCould not contact vessel {}\n\n".format(vessel_id)
-
-    def leader_election():
-        print("xd")
 
         
 
