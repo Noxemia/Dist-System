@@ -85,9 +85,9 @@ try:
 
 
     def leader_election():
-        # leader_init = True
-        print("xd")
-
+        dict alive_vessels = propagate_to_vessels('/leader_election') # currently blocking (i think) also remake/edit "propagate_to_vessels()" to return a list of vessles that responded
+        for x in vessel_list:  # change to "alive_vessles" instead of "vessel_list"
+            print(x[x.rindex(".")]:)
 
     @app.get('/board')
     def get_board():
