@@ -89,8 +89,8 @@ try:
     def set_leader():
         inc_id = request.forms.get("new_leader_id")
         my_leader = inc_id
-        print("MY NEW FURER IS NODE NUMBER: " )
-        print(my_leader)
+        has_leader = True
+        print("new leader " + str(my_leader))
 
     def leader_election():
         global vessel_list, node_id
@@ -100,8 +100,6 @@ try:
         for vessel_id, vessel_ip in vessel_list.items():
             if int(vessel_id) != node_id:  # don't propagate to yourself
                 res[vessel_id] = contact_vessel(vessel_ip, "/leader_election", payload, "POST")
-
-        print(res)
 
         new_leader = node_id # set current vessel as default
         for vessel_id, success in res.items():
