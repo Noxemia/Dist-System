@@ -81,12 +81,12 @@ try:
     @app.get("/leader_election")
     def leader():
         leader_init = True
-
+        print("kill my seelff")
 
 
     def leader_election():
         # leader_init = True
-        print("xd")
+        select_leader()
 
 
     @app.get('/board')
@@ -211,7 +211,9 @@ try:
                 if not success:
                     print "\n\nCould not contact vessel {}\n\n".format(vessel_id)
 
-        
+    def select_leader():
+        global vessel_list
+        print(contact_vessel(vessel_list["2"], "/leader_election", default, "GET"))
 
 
     # ------------------------------------------------------------------------------------------------------
