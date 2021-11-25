@@ -132,29 +132,30 @@ try:
         '''Adds a new element to the board
         Called directly when a user is doing a POST request on /board'''
         global board, node_id, my_leader
-        if int(my_leader) == node_id: # if this is the leader change the board otherwise forward the request to the leader
-            try:
-                new_entry = request.forms.get('entry')
-                # When generating an ID for a new element we random a int 0-1000, if it exists in the board generate a now id
+        try:
+            new_entry = request.forms.get('entry')
+            # When generating an ID for a new element we random a int 0-1000, if it exists in the board generate a now id
+            element_id = random.randint(0, 1000)
+            while element_id in board:
                 element_id = random.randint(0, 1000)
-                while element_id in board:
-                    element_id = random.randint(0, 1000)
-                    
-                add_new_element_to_store(element_id, new_entry)
+                
+            add_new_element_to_store(element_id, new_entry)
 
-                # Then we propagate the new element
+            # Then we propagate the new element
+
+            if int(my_leader) == node_id: # if this is the leader propagate to the other vessels otherwise forward the request to the leader
                 thread = Thread(target=propagate_to_vessels, args=(
                     '/propagate/ADD/' + str(element_id), {'entry': new_entry}, 'POST'))
-                thread.daemon = True
-                thread.start()
-                return True
-            except Exception as e:
-                print (e)
-            return False
-        else:
-            payload = dict()
-            payload["entry"] = request.forms.get('entry') # sending the whole form crashes the server (kinda) so create a new payload to pass to the leader, dumb but it works
-            contact_vessel(vessel_list[my_leader], "/board", payload, "POST")
+            else:
+                thread = Thread(target=contact_vessel, args=(
+                    vessel_list[my_leader], "/board", {'entry': new_entry}, 'POST'))
+            thread.daemon = True
+            thread.start()
+            return True
+        except Exception as e:
+            print (e)
+        return False
+        
 
     @app.post('/board/<element_id:int>/')
     def client_action_received(element_id):
