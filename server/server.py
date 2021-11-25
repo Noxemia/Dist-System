@@ -85,6 +85,7 @@ try:
         leader_init = True
         print(request.forms.get('id'))
         print("Jag vill ta livet av mig")
+        return template()
         
 
 
@@ -221,7 +222,7 @@ try:
         # for vessel_id, vessel_ip in vessel_list.items():
         #    if vessel_id <= node_id:
         #        continue
-        res = requests.post('http://10.0.1.2/leader_election', data=payload)
+        res = requests.post('http://10.1.0.2/leader_election', data=payload)
         results[vessel_id] = res
 
         
