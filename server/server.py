@@ -87,9 +87,10 @@ try:
 
     @app.post("/set_leader")
     def set_leader():
-        inc_id = request.forms.get("id")
+        inc_id = request.forms.get("new_leader_id")
         my_leader = inc_id
         print("MY NEW FURER IS NODE NUMBER: " )
+        print(my_leader)
 
     def leader_election():
         global vessel_list, node_id
@@ -103,9 +104,10 @@ try:
         print(res)
 
         new_leader = node_id # set current vessel as default
-        for vessel_id, success in res:
+        for vessel_id, success in res.items():
             if success and int(vessel_id) > new_leader:
                 new_leader = vessel_id
+        
         payload["new_leader_id"] = new_leader
         propagate_to_vessels("/set_leader", payload, "POST")
 
