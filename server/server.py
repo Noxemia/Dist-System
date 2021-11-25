@@ -179,7 +179,7 @@ try:
         if delete_option == "0":
             if int(my_leader) != node_id: # if this is not the leader forward the request to the leader
                 thread = Thread(target=contact_vessel, args=(
-                    vessel_list[my_leader], "/board/<element_id:int>/", {'entry': entry, 'delete': delete_option}, 'POST'))
+                    vessel_list[my_leader], '/board/{}/'.format(element_id), {'entry': entry, 'delete': delete_option}, 'POST'))
             else:
                 modify_element_in_store(element_id, entry, True)
                 thread = Thread(target=propagate_to_vessels, args=(
