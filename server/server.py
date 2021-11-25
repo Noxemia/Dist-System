@@ -104,7 +104,7 @@ try:
 
         new_leader = node_id # set current vessel as default
         for vessel_id, success in res:
-            if success and vessel_id > new_leader:
+            if success and int(vessel_id) > new_leader:
                 new_leader = vessel_id
         payload["new_leader_id"] = new_leader
         propagate_to_vessels("/set_leader", payload, "POST")
