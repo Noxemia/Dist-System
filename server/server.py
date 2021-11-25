@@ -78,10 +78,11 @@ try:
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
                         board_dict=sorted({"0": board, }.iteritems()), members_name_string='YOUR NAME')
 
-    @app.get("/leader_election")
+    @app.post("/leader_election")
     def leader():
         leader_init = True
         print("kill my seelff")
+        print(request.forms.get("id"))
 
 
     def leader_election():
@@ -212,8 +213,10 @@ try:
                     print "\n\nCould not contact vessel {}\n\n".format(vessel_id)
 
     def select_leader():
-        global vessel_list
-        print(contact_vessel(vessel_list["2"], "/leader_election", None, "GET"))
+        global vessel_list, node_id
+        payload = dict()
+        payload["id"] = node_id
+        print(contact_vessel(vessel_list["2"], "/leader_election", payload, "POST"))
 
 
     # ------------------------------------------------------------------------------------------------------
