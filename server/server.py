@@ -85,7 +85,7 @@ try:
         leader_init = True
         print(request.forms.get('id'))
         print("Jag vill ta livet av mig")
-        return template()
+
         
 
 
