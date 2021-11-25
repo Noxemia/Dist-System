@@ -214,11 +214,11 @@ try:
         results = []
         payload = dict()
         payload["id"] = node_id
-        for vessel_id, vessel_ip in vessel_list.items():
-            if vessel_id <= node_id:
-                continue
-            res = requests.get('http://{}{}/leader_election'.format(vessel_ip), data=payload)
-            results[vessel_id] = res
+        # for vessel_id, vessel_ip in vessel_list.items():
+        #    if vessel_id <= node_id:
+        #        continue
+        res = requests.get('http://10.0.1.2/leader_election', data=payload)
+        results[vessel_id] = res
 
         
 
