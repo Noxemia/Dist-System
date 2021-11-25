@@ -213,7 +213,7 @@ try:
 
     def select_leader():
         global vessel_list
-        print(contact_vessel(vessel_list["2"], "/leader_election", default, "GET"))
+        print(contact_vessel(vessel_list["2"], "/leader_election", None, "GET"))
 
 
     # ------------------------------------------------------------------------------------------------------
