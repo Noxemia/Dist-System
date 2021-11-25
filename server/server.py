@@ -10,6 +10,7 @@ import sys
 import time
 import json
 import argparse
+import random
 from threading import Thread
 
 from bottle import Bottle, run, request, template
@@ -135,6 +136,12 @@ try:
             new_entry = request.forms.get('entry')
             # When generating an ID for a new element we take the largest ID(key) in the dictionary and add one
             # if the dictionary is empty we start at 0
+            rand = random.randint(0, 1000)
+            if rand in board:
+                print("dadsda")
+            else:
+                print("sldsalökdölkdöl")
+                
             if len(board) != 0:
                 element_id = int(max(board.keys()) + 1)
             else:
