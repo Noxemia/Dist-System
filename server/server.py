@@ -174,21 +174,34 @@ try:
 
         print ("the delete option is ", delete_option)
 
+        
+                thread.daemon = True
+                thread.start()
+                return True
+
         # If a post request is received on board/elementid with the request data of delete = 0 we call the modify function with
         # the data received.
         if delete_option == "0":
-            modify_element_in_store(element_id, entry, True)
-            thread = Thread(target=propagate_to_vessels, args=(
-                '/propagate/MODIFY/' + str(element_id), {'entry': entry}, 'POST'))
+            if int(my_leader) != node_id: # if this is not the leader forward the request to the leader
+                thread = Thread(target=contact_vessel, args=(
+                    vessel_list[my_leader], "/board/<element_id:int>/", {'entry': entry, 'delete': delete_option}, 'POST'))
+            else:
+                modify_element_in_store(element_id, entry, True)
+                thread = Thread(target=propagate_to_vessels, args=(
+                    '/propagate/MODIFY/' + str(element_id), {'entry': entry}, 'POST'))
             thread.daemon = True
             thread.start()
 
         # If a post request is received on board/elementid with the request data of delete = 1 we call the delete function with
         # the data received.
         if delete_option == "1":
-            delete_element_from_store(element_id, True)
-            thread = Thread(target=propagate_to_vessels, args=(
-                '/propagate/DELETE/' + str(element_id), {'entry': entry}, 'POST'))
+            if int(my_leader) != node_id: # if this is not the leader forward the request to the leader
+                thread = Thread(target=contact_vessel, args=(
+                    vessel_list[my_leader], "/board/<element_id:int>/", {'entry': entry, 'delete': delete_option}, 'POST'))
+            else:
+                delete_element_from_store(element_id, True)
+                thread = Thread(target=propagate_to_vessels, args=(
+                    '/propagate/DELETE/' + str(element_id), {'entry': entry}, 'POST'))
             thread.daemon = True
             thread.start()
 
