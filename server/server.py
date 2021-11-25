@@ -133,6 +133,7 @@ try:
         Called directly when a user is doing a POST request on /board'''
         global board, node_id, my_leader
         if int(my_leader) == node_id: # if this is the leader change the board otherwise forward the request to the leader
+            print(request.forms)
             try:
                 new_entry = request.forms.get('entry')
                 # When generating an ID for a new element we random a int 0-1000, if it exists in the board generate a now id
@@ -152,6 +153,7 @@ try:
                 print (e)
             return False
         else:
+            print(request.forms)
             contact_vessel(vessel_list[my_leader], "/board", request.forms, "POST")
 
     @app.post('/board/<element_id:int>/')
