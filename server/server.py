@@ -13,6 +13,8 @@ import argparse
 from threading import Thread
 
 from bottle import Bottle, run, request, template
+from bottle import response;
+from bottle import HTTPresponse;
 import requests
 # ------------------------------------------------------------------------------------------------------
 try:
@@ -82,6 +84,7 @@ try:
     def leader():
         leader_init = True
         print(request.forms.get('id'))
+        return bottle.HTTPResponse(status=200)
 
 
     def leader_election():
@@ -217,8 +220,8 @@ try:
         # for vessel_id, vessel_ip in vessel_list.items():
         #    if vessel_id <= node_id:
         #        continue
-        #res = requests.get('http://10.0.1.2/leader_election', data=payload)
-        #results[vessel_id] = res
+        res = requests.get('http://10.0.1.2/leader_election', data=payload)
+        results[vessel_id] = res
 
         
 
