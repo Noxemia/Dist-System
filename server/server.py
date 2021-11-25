@@ -174,11 +174,6 @@ try:
 
         print ("the delete option is ", delete_option)
 
-        
-                thread.daemon = True
-                thread.start()
-                return True
-
         # If a post request is received on board/elementid with the request data of delete = 0 we call the modify function with
         # the data received.
         if delete_option == "0":
