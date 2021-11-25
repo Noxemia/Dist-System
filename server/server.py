@@ -81,11 +81,11 @@ try:
     @app.get("/leader_election")
     def leader():
         leader_init = True
-
+        print(request.forms.get('id'))
 
 
     def leader_election():
-        dict alive_vessels = propagate_to_vessels('/leader_election') # currently blocking (i think) also remake/edit "propagate_to_vessels()" to return a list of vessles that responded
+        dict alive_vessels = propagate_to_vessels('/leader_election', default, "GET") # currently blocking (i think) also remake/edit "propagate_to_vessels()" to return a list of vessles that responded
         for x in vessel_list:  # change to "alive_vessles" instead of "vessel_list"
             print(x[x.rindex(".")]:)
 
@@ -211,6 +211,17 @@ try:
                 if not success:
                     print "\n\nCould not contact vessel {}\n\n".format(vessel_id)
 
+    def propagate_leader():
+        global node_id
+        results = []
+        let payload = dict()
+        payload["id"] = node_id
+        for vessel_id, vessel_ip in vessel_list.items():
+            if vessel_id =< node_id:
+                continue
+            res = requests.get('http://{}{}/leader_election'.format(vessel_ip), data=payload)
+            results[vessel_id] = res
+
         
 
 
@@ -234,7 +245,6 @@ try:
         # We need to write the other vessels IP, based on the knowledge of their number
         for i in range(1, args.nbv+1):
             vessel_list[str(i)] = '10.1.0.{}'.format(str(i))
-
         try:
             run(app, host=vessel_list[str(node_id)], port=port)
             before_first_request()
