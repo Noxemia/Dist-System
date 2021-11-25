@@ -36,7 +36,7 @@ try:
                 board[int(entry_sequence)] = element
                 success = True
         except Exception as e:
-            print e
+            print (e)
         return success
 
     # This function will update an existing element in the board dictionary
@@ -47,7 +47,7 @@ try:
             board[int(entry_sequence)] = modified_element
             success = True
         except Exception as e:
-            print e
+            print (e)
         return success
 
     # This function will remove an element from the board dictionary
@@ -58,7 +58,7 @@ try:
             board.pop(int(entry_sequence))
             success = True
         except Exception as e:
-            print e
+            print (e)
         return success
 
     # ------------------------------------------------------------------------------------------------------
@@ -69,6 +69,7 @@ try:
     # No need to modify this
 
     leader_init = False
+    my_leader = "-1"
 
     @app.route('/')
     def index():
@@ -80,10 +81,20 @@ try:
 
     @app.post("/leader_election")
     def leader():
+        global node_id
         leader_init = True
-        print("kill my seelff")
-        print(request.forms.get("id"))
+        inc_id = request.forms.get("id")
+        print(inc_id)
+        if int(inc_id) > node_id:
+            payload = dict()
+            payload["id"] = node_id
+            contact_vessel(vessel_list[inc_id], "/set_leader", payload, "POST")
 
+    @app.post("/set_leader")
+    def set_leader():
+        inc_id = request.forms.get("id")
+        my_leader = inc_id
+        print("MY NEW FURER IS NODE NUMBER: " )
 
     def leader_election():
         # leader_init = True
@@ -95,7 +106,7 @@ try:
         global board, node_id
         if(not leader_init):
             leader_election()
-        print board
+        print (board)
         return template('server/boardcontents_template.tpl', board_title='Vessel {}'.format(node_id), board_dict=sorted(board.iteritems()))
 
     # ------------------------------------------------------------------------------------------------------
@@ -123,22 +134,22 @@ try:
             thread.start()
             return True
         except Exception as e:
-            print e
+            print (e)
         return False
 
     @app.post('/board/<element_id:int>/')
     def client_action_received(element_id):
         global board, node_id
 
-        print "You receive an element"
-        print "id is ", node_id
+        print ("You receive an element")
+        print ("id is ", node_id)
         # Get the entry from the HTTP body
         entry = request.forms.get('entry')
 
         delete_option = request.forms.get('delete')
         # 0 = modify, 1 = delete
 
-        print "the delete option is ", delete_option
+        print ("the delete option is ", delete_option)
 
         # If a post request is received on board/elementid with the request data of delete = 0 we call the modify function with
         # the data received.
@@ -165,7 +176,7 @@ try:
     def propagation_received(action, element_id):
         # get entry from http body
         entry = request.forms.get('entry')
-        print "the action is", action
+        print ("the action is", action)
 
         # Handle requests
         # for example action == "ADD":
@@ -194,13 +205,13 @@ try:
             elif 'GET' in req:
                 res = requests.get('http://{}{}'.format(vessel_ip, path))
             else:
-                print 'Non implemented feature!'
+                print ('Non implemented feature!')
             # result is in res.text or res.json()
             print(res.text)
             if res.status_code == 200:
                 success = True
         except Exception as e:
-            print e
+            print (e)
         return success
 
     def propagate_to_vessels(path, payload=None, req='POST'):
@@ -210,7 +221,7 @@ try:
             if int(vessel_id) != node_id:  # don't propagate to yourself
                 success = contact_vessel(vessel_ip, path, payload, req)
                 if not success:
-                    print "\n\nCould not contact vessel {}\n\n".format(vessel_id)
+                    print ("\n\nCould not contact vessel {}\n\n".format(vessel_id))
 
     def select_leader():
         global vessel_list, node_id
@@ -244,7 +255,7 @@ try:
             run(app, host=vessel_list[str(node_id)], port=port)
             before_first_request()
         except Exception as e:
-            print e
+            print (e)
     # ------------------------------------------------------------------------------------------------------
     if __name__ == '__main__':
         main()
