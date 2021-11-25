@@ -85,8 +85,7 @@ try:
 
 
     def leader_election():
-        for x in vessel_list:  # change to "alive_vessles" instead of "vessel_list"
-            print(x[x.rindex(".")]:)
+      propagate_leader()
 
     @app.get('/board')
     def get_board():
@@ -213,10 +212,10 @@ try:
     def propagate_leader():
         global node_id
         results = []
-        let payload = dict()
+        payload = dict()
         payload["id"] = node_id
         for vessel_id, vessel_ip in vessel_list.items():
-            if vessel_id =< node_id:
+            if vessel_id <= node_id:
                 continue
             res = requests.get('http://{}{}/leader_election'.format(vessel_ip), data=payload)
             results[vessel_id] = res
