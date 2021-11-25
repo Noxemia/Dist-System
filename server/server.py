@@ -74,9 +74,10 @@ try:
     @app.route('/')
     def index():
         global board, node_id
-        print(has_leader)
         if(not has_leader):
             leader_election()
+        
+        print(str(has_leader) + " " + str(my_leader) + " route: /")
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
                         board_dict=sorted({"0": board, }.iteritems()), members_name_string='YOUR NAME')
 
@@ -120,6 +121,7 @@ try:
         global board, node_id
         if(not has_leader):
             leader_election()
+        print(str(has_leader) + " " + str(my_leader) + " route: /board")
         print (board)
         return template('server/boardcontents_template.tpl', board_title='Vessel {}'.format(node_id), board_dict=sorted(board.iteritems()))
 
