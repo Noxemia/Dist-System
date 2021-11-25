@@ -144,9 +144,11 @@ try:
             # Then we propagate the new element
 
             if int(my_leader) == node_id: # if this is the leader propagate to the other vessels otherwise forward the request to the leader
+                print("123")
                 thread = Thread(target=propagate_to_vessels, args=(
                     '/propagate/ADD/' + str(element_id), {'entry': new_entry}, 'POST'))
             else:
+                print("09876")
                 thread = Thread(target=contact_vessel, args=(
                     vessel_list[my_leader], "/board", {'entry': new_entry}, 'POST'))
             thread.daemon = True
