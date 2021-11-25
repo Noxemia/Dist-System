@@ -129,8 +129,6 @@ try:
     # You NEED to change the follow functions
     @app.post('/board')
     def client_add_received():
-        '''Adds a new element to the board
-        Called directly when a user is doing a POST request on /board'''
         global board, node_id, my_leader
         try:
             new_entry = request.forms.get('entry')
