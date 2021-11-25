@@ -73,7 +73,7 @@ try:
 
     @app.route('/')
     def index():
-        global board, node_id
+        global board, node_id, has_leader, my_leader
         if(not has_leader):
             leader_election()
         
@@ -88,13 +88,14 @@ try:
 
     @app.post("/set_leader")
     def set_leader():
+        global has_leader, my_leader
         inc_id = request.forms.get("new_leader_id")
         my_leader = inc_id
         has_leader = True
         print("new leader " + str(my_leader))
 
     def leader_election():
-        global vessel_list, node_id
+        global vessel_list, node_id, has_leader, my_leader
         payload = dict()
         payload["id"] = node_id
         res = dict()
