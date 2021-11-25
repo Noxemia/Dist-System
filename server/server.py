@@ -109,7 +109,7 @@ try:
         payload["new_leader_id"] = new_leader
         propagate_to_vessels("/set_leader", payload, "POST") # set others leader
         
-        my_leader = inc_id #update own leader
+        my_leader = new_leader #update own leader
         has_leader = True
         print("new leader " + str(my_leader))
 
