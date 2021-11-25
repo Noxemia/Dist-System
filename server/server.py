@@ -136,7 +136,6 @@ try:
             new_entry = request.forms.get('entry')
 
             if int(my_leader) != node_id: # if this is not the leader forward the request to the leader
-                print("dosadlkakdjslak")
                 thread = Thread(target=contact_vessel, args=(
                     vessel_list[my_leader], "/board", {'entry': new_entry}, 'POST'))
                 thread.daemon = True
