@@ -74,6 +74,7 @@ try:
     @app.route('/')
     def index():
         global board, node_id
+        print(has_leader)
         if(not has_leader):
             leader_election()
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
@@ -82,7 +83,6 @@ try:
     @app.post("/leader_election")
     def leader():
         global node_id
-        has_leader = True
         inc_id = request.forms.get("id")
 
     @app.post("/set_leader")
