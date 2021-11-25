@@ -100,6 +100,8 @@ try:
             if int(vessel_id) != node_id:  # don't propagate to yourself
                 res[vessel_id] = contact_vessel(vessel_ip, "/leader_election", payload, "POST")
 
+        print(res)
+
         new_leader = node_id # set current vessel as default
         for vessel_id, success in res:
             if success and vessel_id > new_leader:
