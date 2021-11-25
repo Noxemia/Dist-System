@@ -137,7 +137,7 @@ try:
             # When generating an ID for a new element we take the largest ID(key) in the dictionary and add one
             # if the dictionary is empty we start at 0
             rand = random.randint(0, 1000)
-            while rand not in board:
+            while rand in board:
                 rand = random.randint(0, 1000)
                 element_id = rand
             add_new_element_to_store(element_id, new_entry)
