@@ -222,8 +222,8 @@ try:
         # for vessel_id, vessel_ip in vessel_list.items():
         #    if vessel_id <= node_id:
         #        continue
-        res = requests.post('http://10.1.0.2/leader_election', data=payload)
-        results[vessel_id] = res
+        #res = requests.post('http://10.1.0.2/leader_election', data=payload)
+        #results[vessel_id] = res
 
         
 
