@@ -68,13 +68,13 @@ try:
     # ------------------------------------------------------------------------------------------------------
     # No need to modify this
 
-    leader_init = False
+    has_leader = False
     my_leader = "-1"
 
     @app.route('/')
     def index():
         global board, node_id
-        if(not leader_init):
+        if(not has_leader):
             leader_election()
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
                         board_dict=sorted({"0": board, }.iteritems()), members_name_string='YOUR NAME')
@@ -82,13 +82,8 @@ try:
     @app.post("/leader_election")
     def leader():
         global node_id
-        leader_init = True
+        has_leader = True
         inc_id = request.forms.get("id")
-        print(inc_id)
-        if int(inc_id) > node_id:
-            payload = dict()
-            payload["id"] = node_id
-            contact_vessel(vessel_list[inc_id], "/set_leader", payload, "POST")
 
     @app.post("/set_leader")
     def set_leader():
@@ -97,14 +92,27 @@ try:
         print("MY NEW FURER IS NODE NUMBER: " )
 
     def leader_election():
-        # leader_init = True
-        select_leader()
+        global vessel_list, node_id
+        payload = dict()
+        payload["id"] = node_id
+        res = dict()
+        for vessel_id, vessel_ip in vessel_list.items():
+            if int(vessel_id) != node_id:  # don't propagate to yourself
+                res[vessel_id] = contact_vessel(vessel_ip, "/leader_election", payload, "POST")
+
+        new_leader = node_id # set current vessel as default
+        for vessel_id, success in res:
+            if success and vessel_id > new_leader
+                new_leader = vessel_id
+
+        propagate_to_vessels("/set_leader", payload["new_leader_id"]=new_leader, "POST")
+
 
 
     @app.get('/board')
     def get_board():
         global board, node_id
-        if(not leader_init):
+        if(not has_leader):
             leader_election()
         print (board)
         return template('server/boardcontents_template.tpl', board_title='Vessel {}'.format(node_id), board_dict=sorted(board.iteritems()))
@@ -223,11 +231,6 @@ try:
                 if not success:
                     print ("\n\nCould not contact vessel {}\n\n".format(vessel_id))
 
-    def select_leader():
-        global vessel_list, node_id
-        payload = dict()
-        payload["id"] = node_id
-        print(contact_vessel(vessel_list["2"], "/leader_election", payload, "POST"))
 
 
     # ------------------------------------------------------------------------------------------------------
