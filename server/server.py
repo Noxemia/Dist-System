@@ -134,6 +134,12 @@ try:
         global board, node_id, my_leader
         try:
             new_entry = request.forms.get('entry')
+
+            if int(my_leader) != node_id: # if this is not the leader forward the request to the leader
+                thread = Thread(target=contact_vessel, args=(
+                    vessel_list[my_leader], "/board", {'entry': new_entry}, 'POST'))
+                return True
+
             # When generating an ID for a new element we random a int 0-1000, if it exists in the board generate a now id
             element_id = random.randint(0, 1000)
             while element_id in board:
@@ -142,15 +148,8 @@ try:
             add_new_element_to_store(element_id, new_entry)
 
             # Then we propagate the new element
-
-            if int(my_leader) == node_id: # if this is the leader propagate to the other vessels otherwise forward the request to the leader
-                print("123")
-                thread = Thread(target=propagate_to_vessels, args=(
-                    '/propagate/ADD/' + str(element_id), {'entry': new_entry}, 'POST'))
-            else:
-                print("09876")
-                thread = Thread(target=contact_vessel, args=(
-                    vessel_list[my_leader], "/board", {'entry': new_entry}, 'POST'))
+            thread = Thread(target=propagate_to_vessels, args=(
+                '/propagate/ADD/' + str(element_id), {'entry': new_entry}, 'POST'))
             thread.daemon = True
             thread.start()
             return True
