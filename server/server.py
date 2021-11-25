@@ -80,11 +80,12 @@ try:
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
                         board_dict=sorted({"0": board, }.iteritems()), members_name_string='YOUR NAME')
 
-    @app.get("/leader_election")
+    @app.post("/leader_election")
     def leader():
         leader_init = True
         print(request.forms.get('id'))
-        return bottle.HTTPResponse(status=200)
+        print("Jag vill ta livet av mig")
+        
 
 
     def leader_election():
@@ -220,7 +221,7 @@ try:
         # for vessel_id, vessel_ip in vessel_list.items():
         #    if vessel_id <= node_id:
         #        continue
-        res = requests.get('http://10.0.1.2/leader_election', data=payload)
+        res = requests.post('http://10.0.1.2/leader_election', data=payload)
         results[vessel_id] = res
 
         
