@@ -153,7 +153,7 @@ try:
             return False
         else:
             payload = dict()
-            payload["entry"] = request.forms.get('entry')
+            payload["entry"] = request.forms.get('entry') # sending the whole form crashes the server (kinda) so create a new payload to pass to the leader, dumb but it works
             contact_vessel(vessel_list[my_leader], "/board", payload, "POST")
 
     @app.post('/board/<element_id:int>/')
