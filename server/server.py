@@ -152,7 +152,9 @@ try:
                 print (e)
             return False
         else:
-            contact_vessel(vessel_list[my_leader], "/board")
+            payload = dict()
+            payload["entry"] = request.forms.get('entry')
+            contact_vessel(vessel_list[my_leader], "/board", payload, "POST")
 
     @app.post('/board/<element_id:int>/')
     def client_action_received(element_id):
