@@ -136,10 +136,10 @@ try:
             new_entry = request.forms.get('entry')
             # When generating an ID for a new element we take the largest ID(key) in the dictionary and add one
             # if the dictionary is empty we start at 0
-            rand = random.randint(0, 1000)
-            while rand in board:
-                rand = random.randint(0, 1000)
-                element_id = rand
+            element_id = random.randint(0, 1000)
+            while element_id in board:
+                element_id = random.randint(0, 1000)
+                
             add_new_element_to_store(element_id, new_entry)
 
             # Then we propagate the new element
