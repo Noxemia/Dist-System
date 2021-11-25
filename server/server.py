@@ -107,7 +107,7 @@ try:
                 new_leader = vessel_id
         
         payload["new_leader_id"] = new_leader
-        propagate_to_vessels("/set_leader", payload, "POST")
+        propagate_to_vessels("/set_leader", payload, "POST", True)
 
 
 
@@ -224,11 +224,11 @@ try:
             print (e)
         return success
 
-    def propagate_to_vessels(path, payload=None, req='POST'):
+    def propagate_to_vessels(path, payload=None, req='POST', include_self=False):
         global vessel_list, node_id
 
         for vessel_id, vessel_ip in vessel_list.items():
-            if int(vessel_id) != node_id:  # don't propagate to yourself
+            if (int(vessel_id) != node_id) or include_self: 
                 success = contact_vessel(vessel_ip, path, payload, req)
                 if not success:
                     print ("\n\nCould not contact vessel {}\n\n".format(vessel_id))
