@@ -214,7 +214,7 @@ try:
                 if not success:
                     print "\n\nCould not contact vessel {}\n\n".format(vessel_id)
 
-    def propagate_leader():
+    #def propagate_leader():
         #global node_id
         #results = []
         #payload = dict()
