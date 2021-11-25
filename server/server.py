@@ -105,7 +105,7 @@ try:
 
         new_leader = node_id # set current vessel as default
         for vessel_id, success in res.items():
-            print(str(vessel_id) + " " + str(type(vessel_id)) + " " + str(success) + " " + str(new_leader))
+            print(str(vessel_id) + " " + str(type(int(vessel_id))) + " " + str(success) + " " + str(new_leader))
             if success and int(vessel_id) > new_leader:
                 new_leader = vessel_id
         
