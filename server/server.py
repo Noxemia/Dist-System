@@ -152,7 +152,7 @@ try:
                 print (e)
             return False
         else:
-            contact_vessel(vessel_list[my_leader], "/board", payload, req)
+            contact_vessel(vessel_list[my_leader], "/board")
 
     @app.post('/board/<element_id:int>/')
     def client_action_received(element_id):
