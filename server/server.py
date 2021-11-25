@@ -80,10 +80,10 @@ try:
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
                         board_dict=sorted({"0": board, }.iteritems()), members_name_string='YOUR NAME')
 
-    @app.post("/leader_election")
+    @app.get("/leader_election")
     def leader():
         leader_init = True
-        print(request.forms.get('id'))
+        #print(request.forms.get('id'))
         print("Jag vill ta livet av mig")
 
         
@@ -215,14 +215,14 @@ try:
                     print "\n\nCould not contact vessel {}\n\n".format(vessel_id)
 
     def propagate_leader():
-        global node_id
-        results = []
-        payload = dict()
-        payload["id"] = node_id
+        #global node_id
+        #results = []
+        #payload = dict()
+        #payload["id"] = node_id
         # for vessel_id, vessel_ip in vessel_list.items():
         #    if vessel_id <= node_id:
         #        continue
-        #res = requests.post('http://10.1.0.2/leader_election', data=payload)
+        res = requests.get('http://10.1.0.2/leader_election')
         #results[vessel_id] = res
 
         
