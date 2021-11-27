@@ -140,20 +140,20 @@ try:
                 thread.daemon = True
                 thread.start()
                 #return True
-
-            # When generating an ID for a new element we random a int 0-1000, if it exists in the board generate a now id
-            element_id = random.randint(0, 1000)
-            while element_id in board:
+            else:
+                # When generating an ID for a new element we random a int 0-1000, if it exists in the board generate a now id
                 element_id = random.randint(0, 1000)
-                
-            add_new_element_to_store(element_id, new_entry)
+                while element_id in board:
+                    element_id = random.randint(0, 1000)
+                    
+                add_new_element_to_store(element_id, new_entry)
 
-            # Then we propagate the new element
-            thread = Thread(target=propagate_to_vessels, args=(
-                '/propagate/ADD/' + str(element_id), {'entry': new_entry}, 'POST'))
-            thread.daemon = True
-            thread.start()
-            #return True
+                # Then we propagate the new element
+                thread = Thread(target=propagate_to_vessels, args=(
+                    '/propagate/ADD/' + str(element_id), {'entry': new_entry}, 'POST'))
+                thread.daemon = True
+                thread.start()
+                #return True
         except Exception as e:
             print (e)
         #return False
