@@ -118,7 +118,7 @@ try:
 
     @app.get('/board')
     def get_board():
-        global board, node_id
+        global board, node_id, has_leader, my_leader
         if(not has_leader):
             leader_election()
         print (board)
@@ -129,7 +129,9 @@ try:
     # You NEED to change the follow functions
     @app.post('/board')
     def client_add_received():
-        global board, node_id, my_leader
+        global board, node_id, has_leader, my_leader
+        if(not has_leader):
+            leader_election()
         try:
             new_entry = request.forms.get('entry')
 
@@ -160,7 +162,9 @@ try:
 
     @app.post('/board/<element_id:int>/')
     def client_action_received(element_id):
-        global board, node_id
+        global board, node_id, has_leader, my_leader
+        if(not has_leader):
+            leader_election()
 
         print ("You receive an element")
         print ("id is ", node_id)
@@ -251,6 +255,11 @@ try:
                 success = contact_vessel(vessel_ip, path, payload, req)
                 if not success:
                     print ("\n\nCould not contact vessel {}\n\n".format(vessel_id))
+
+    def contact_leader(path, payload=None, req="POST"):
+        global vessel_list, my_leader
+        if not contact_vessel(vessel_list[my_leader], path, payload, req)):
+            has_leader = False
 
 
 
