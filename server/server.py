@@ -136,8 +136,7 @@ try:
             new_entry = request.forms.get('entry')
 
             if int(my_leader) != node_id: # if this is not the leader forward the request to the leader
-                thread = Thread(target=contact_vessel, args=(
-                    vessel_list[my_leader], "/board", {'entry': new_entry}, 'POST'))
+                thread = Thread(target=contact_leader, args=("/board", {'entry': new_entry}, 'POST'))
                 thread.daemon = True
                 thread.start()
                 return True
@@ -180,8 +179,7 @@ try:
         # the data received.
         if delete_option == "0":
             if int(my_leader) != node_id: # if this is not the leader forward the request to the leader
-                thread = Thread(target=contact_vessel, args=(
-                    vessel_list[my_leader], '/board/{}/'.format(element_id), {'entry': entry, 'delete': delete_option}, 'POST'))
+                thread = Thread(target=contact_leader, args=('/board/{}/'.format(element_id), {'entry': entry, 'delete': delete_option}, 'POST'))
             else:
                 modify_element_in_store(element_id, entry, True)
                 thread = Thread(target=propagate_to_vessels, args=(
@@ -193,8 +191,7 @@ try:
         # the data received.
         if delete_option == "1":
             if int(my_leader) != node_id: # if this is not the leader forward the request to the leader
-                thread = Thread(target=contact_vessel, args=(
-                    vessel_list[my_leader], '/board/{}/'.format(element_id), {'entry': entry, 'delete': delete_option}, 'POST'))
+                thread = Thread(target=contact_leader, args=('/board/{}/'.format(element_id), {'entry': entry, 'delete': delete_option}, 'POST'))
             else:
                 delete_element_from_store(element_id, True)
                 thread = Thread(target=propagate_to_vessels, args=(
