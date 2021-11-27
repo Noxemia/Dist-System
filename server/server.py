@@ -139,7 +139,6 @@ try:
                 thread = Thread(target=contact_leader, args=("/board", {'entry': new_entry}, 'POST'))
                 thread.daemon = True
                 thread.start()
-                #return True
             else:
                 # When generating an ID for a new element we random a int 0-1000, if it exists in the board generate a now id
                 element_id = random.randint(0, 1000)
@@ -153,10 +152,8 @@ try:
                     '/propagate/ADD/' + str(element_id), {'entry': new_entry}, 'POST'))
                 thread.daemon = True
                 thread.start()
-                #return True
         except Exception as e:
             print (e)
-        #return False
         
 
     @app.post('/board/<element_id:int>/')
