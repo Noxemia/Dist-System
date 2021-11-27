@@ -258,7 +258,7 @@ try:
 
     def contact_leader(path, payload=None, req="POST"):
         global vessel_list, my_leader
-        if not contact_vessel(vessel_list[my_leader], path, payload, req)):
+        if not contact_vessel(vessel_list[my_leader], path, payload, req):
             has_leader = False
 
 
