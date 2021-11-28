@@ -77,12 +77,10 @@ try:
         global board, node_id, has_leader, my_leader
         if(not has_leader):
             leader_election()
-        else:
-            contact_leader("/")
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
                         board_dict=sorted({"0": board, }.iteritems()), members_name_string='YOUR NAME')
 
-    @app.post("/leader_election") # just checks if the node is alive
+    @app.post("/r_u_alive") # just checks if the node is alive
     def leader():
         global node_id
         inc_id = request.forms.get("id")
@@ -103,7 +101,7 @@ try:
         res = dict()
         for vessel_id, vessel_ip in vessel_list.items():
             if int(vessel_id) != node_id:  # don't propagate to yourself
-                res[vessel_id] = contact_vessel(vessel_ip, "/leader_election", payload, "POST")
+                res[vessel_id] = contact_vessel(vessel_ip, "/r_u_alive", payload, "POST")
 
         new_leader = node_id # set current vessel as default
         for vessel_id, success in res.items():
@@ -124,8 +122,6 @@ try:
         global board, node_id, has_leader, my_leader
         if(not has_leader):
             leader_election()
-        else:
-            contact_leader("/")
         print (board)
         return template('server/boardcontents_template.tpl', board_title='Vessel {}'.format(node_id), board_dict=sorted(board.iteritems()))
 
