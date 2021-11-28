@@ -97,7 +97,7 @@ try:
         print("new leader " + str(my_leader))
 
         leader_board = dict()
-        leader_board = request.forms.get("leader_board")
+        leader_board = json.loads(request.forms.get("leader_board"))
         print(request.body.read())        
         print("priv board " + str(board) + " " + str(type(board)))
         board = leader_board
