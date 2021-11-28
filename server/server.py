@@ -80,15 +80,15 @@ try:
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
                         board_dict=sorted({"0": board, }.iteritems()), members_name_string='YOUR NAME')
 
-    @app.post("/leader_election")
+    @app.post("/leader_election") # just checks if the node is alive
     def leader():
-        global node_id
         inc_id = request.forms.get("id")
 
     @app.post("/set_leader")
     def set_leader():
         global has_leader, my_leader
         inc_id = request.forms.get("new_leader_id")
+        print("priv leader: " + str(my_leader))
         my_leader = inc_id
         has_leader = True
         print("new leader " + str(my_leader))
@@ -253,7 +253,6 @@ try:
     def contact_leader(path, payload=None, req="POST"):
         global vessel_list, my_leader, has_leader
         if not contact_vessel(vessel_list[my_leader], path, payload, req):
-            print("dksjaslkjdkljaslkaslkjdsalskjkadlsjlakjsdkljs")
             has_leader = False
 
 
