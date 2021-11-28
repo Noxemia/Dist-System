@@ -96,7 +96,7 @@ try:
         print("new leader " + str(my_leader))
 
         leader_board = dict()
-        leader_board = {request.forms.get("leader_board")}
+        leader_board = request.forms.get("leader_board")
         print(request.body.read())        
         print("priv board " + str(board))
         board = leader_board
@@ -117,7 +117,7 @@ try:
                 new_leader = vessel_id
         
         payload["new_leader_id"] = new_leader
-        payload["leader_board"] = board
+        payload["leader_board"] = {board}
         print("regular: " + str(board))
         print("payload: " + str(payload["leader_board"]))
         propagate_to_vessels("/set_leader", payload, "POST") # set others leader
