@@ -37,7 +37,6 @@ try:
         success = False
         try:
             if entry_sequence not in board:
-                print(str(type(board)) + " " + str(type(entry_sequence)) + " " + str(type(element)))
                 board[entry_sequence] = element
                 success = True
         except Exception as e:
@@ -98,8 +97,6 @@ try:
 
         leader_board = dict()
         leader_board = json.loads(request.forms.get("leader_board"))
-        print(request.body.read())        
-        print("priv board " + str(board) + " " + str(type(board)))
         board = leader_board
         print("new board " + str(board) + " " + str(type(board)))
 
@@ -119,8 +116,6 @@ try:
         
         payload["new_leader_id"] = new_leader
         payload["leader_board"] = json.dumps(board)
-        print("regular: " + str(board))
-        print("payload: " + str(payload["leader_board"]))
         propagate_to_vessels("/set_leader", payload, "POST") # set others leader
         
         my_leader = new_leader #update own leader
