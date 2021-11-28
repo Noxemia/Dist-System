@@ -95,6 +95,7 @@ try:
         has_leader = True
         print("new leader " + str(my_leader))
 
+        leader_board = dict()
         leader_board = request.forms.get("leader_board")
         print("priv board " + str(board))
         board = leader_board
