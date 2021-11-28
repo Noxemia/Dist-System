@@ -251,7 +251,7 @@ try:
                     print ("\n\nCould not contact vessel {}\n\n".format(vessel_id))
 
     def contact_leader(path, payload=None, req="POST"):
-        global vessel_list, my_leader
+        global vessel_list, my_leader, has_leader
         if not contact_vessel(vessel_list[my_leader], path, payload, req):
             print("dksjaslkjdkljaslkaslkjdsalskjkadlsjlakjsdkljs")
             has_leader = False
