@@ -38,7 +38,7 @@ try:
         try:
             if entry_sequence not in board:
                 print(str(type(entry_sequence)) + " " + str(type(element)))
-                board[entry_sequence] = element
+                board += {entry_sequence : element}
                 success = True
         except Exception as e:
             print (e)
