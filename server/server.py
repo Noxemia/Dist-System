@@ -37,7 +37,7 @@ try:
         success = False
         try:
             if entry_sequence not in board:
-                board[int(entry_sequence)] = element
+                board[entry_sequence] = element
                 success = True
         except Exception as e:
             print (e)
@@ -48,7 +48,7 @@ try:
         global board, node_id
         success = False
         try:
-            board[int(entry_sequence)] = modified_element
+            board[entry_sequence] = modified_element
             success = True
         except Exception as e:
             print (e)
@@ -59,7 +59,7 @@ try:
         global board, node_id
         success = False
         try:
-            board.pop(int(entry_sequence))
+            board.pop(entry_sequence)
             success = True
         except Exception as e:
             print (e)
