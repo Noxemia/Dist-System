@@ -20,7 +20,7 @@ try:
     app = Bottle()
 
     # board stores all message on the system
-    board = {0: "Welcome to Distributed Systems Course"}
+    board = {"0": "Welcome to Distributed Systems Course"}
 
     has_leader = False
     my_leader = "-1"
@@ -153,9 +153,9 @@ try:
                 thread.start()
             else:
                 # When generating an ID for a new element we random a int 0-1000, if it exists in the board generate a now id
-                element_id = random.randint(0, 1000)
+                element_id = str(random.randint(0, 1000))
                 while element_id in board:
-                    element_id = random.randint(0, 1000)
+                    element_id = str(random.randint(0, 1000))
                     
                 add_new_element_to_store(element_id, new_entry)
 
