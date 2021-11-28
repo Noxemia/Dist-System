@@ -87,7 +87,7 @@ try:
 
     @app.post("/set_leader")
     def set_leader():
-        global has_leader, my_leader
+        global has_leader, my_leader, board
 
         inc_id = request.forms.get("new_leader_id")
         print("priv leader: " + str(my_leader))
