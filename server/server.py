@@ -77,11 +77,14 @@ try:
         global board, node_id, has_leader, my_leader
         if(not has_leader):
             leader_election()
+        else:
+            contact_leader("/")
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
                         board_dict=sorted({"0": board, }.iteritems()), members_name_string='YOUR NAME')
 
     @app.post("/leader_election") # just checks if the node is alive
     def leader():
+        global node_id
         inc_id = request.forms.get("id")
 
     @app.post("/set_leader")
@@ -121,6 +124,8 @@ try:
         global board, node_id, has_leader, my_leader
         if(not has_leader):
             leader_election()
+        else:
+            contact_leader("/")
         print (board)
         return template('server/boardcontents_template.tpl', board_title='Vessel {}'.format(node_id), board_dict=sorted(board.iteritems()))
 
