@@ -88,14 +88,20 @@ try:
     @app.post("/set_leader")
     def set_leader():
         global has_leader, my_leader
+
         inc_id = request.forms.get("new_leader_id")
         print("priv leader: " + str(my_leader))
         my_leader = inc_id
         has_leader = True
         print("new leader " + str(my_leader))
 
+        leader_board = request.forms.get("leader_board")
+        print("priv board " + str(board))
+        board = leader_board
+        print("new board " + str(board))
+
     def leader_election():
-        global vessel_list, node_id, has_leader, my_leader
+        global vessel_list, node_id, has_leader, my_leader, board
         payload = dict()
         payload["id"] = node_id
         res = dict()
@@ -109,6 +115,7 @@ try:
                 new_leader = vessel_id
         
         payload["new_leader_id"] = new_leader
+        payload["leader_board"] = board
         propagate_to_vessels("/set_leader", payload, "POST") # set others leader
         
         my_leader = new_leader #update own leader
@@ -163,8 +170,6 @@ try:
         if(not has_leader):
             leader_election()
 
-        print ("You receive an element")
-        print ("id is ", node_id)
         # Get the entry from the HTTP body
         entry = request.forms.get('entry')
 
