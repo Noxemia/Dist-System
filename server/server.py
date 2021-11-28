@@ -99,9 +99,9 @@ try:
         leader_board = dict()
         leader_board = request.forms.get("leader_board")
         print(request.body.read())        
-        print("priv board " + str(board))
+        print("priv board " + str(board) + " " + str(type(board)))
         board = leader_board
-        print("new board " + str(board))
+        print("new board " + str(board) + " " + str(type(board)))
 
     def leader_election():
         global vessel_list, node_id, has_leader, my_leader, board
