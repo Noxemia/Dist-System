@@ -212,6 +212,7 @@ try:
     @app.post('/propagate/<action>/<element_id>')
     def propagation_received(action, element_id):
         # get entry from http body
+        element_id = str(element_id)
         entry = request.forms.get('entry')
         print ("the action is", action)
 
