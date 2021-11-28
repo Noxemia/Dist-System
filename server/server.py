@@ -117,7 +117,7 @@ try:
                 new_leader = vessel_id
         
         payload["new_leader_id"] = new_leader
-        payload["leader_board"] = {board}
+        payload["leader_board"] = {"board":board}
         print("regular: " + str(board))
         print("payload: " + str(payload["leader_board"]))
         propagate_to_vessels("/set_leader", payload, "POST") # set others leader
