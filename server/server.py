@@ -147,9 +147,9 @@ try:
                 thread = Thread(target=contact_leader, args=("/board", {'entry': new_entry}, 'POST'))
                 thread.daemon = True
                 thread.start()
-                bottle.response.status = 201; 
-                bottle.response.body = json.dumps({'key':'value'}); 
-                return bottle.response
+                app.response.status = 201; 
+                app.response.body = json.dumps({'key':'value'}); 
+                return app.response
             else:
                 # When generating an ID for a new element we random a int 0-1000, if it exists in the board generate a now id
                 element_id = str(random.randint(0, 1000))
@@ -163,9 +163,9 @@ try:
                     '/propagate/ADD/' + str(element_id), {'entry': new_entry}, 'POST'))
                 thread.daemon = True
                 thread.start()
-                bottle.response.status = 201; 
-                bottle.response.body = json.dumps({'key':'value'}); 
-                return bottle.response
+                app.response.status = 201; 
+                app.response.body = json.dumps({'key':'value'}); 
+                return app.response
         except Exception as e:
             print (e)
         
