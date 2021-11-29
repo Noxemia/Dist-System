@@ -263,6 +263,8 @@ try:
         global vessel_list, my_leader, has_leader
         if not contact_vessel(vessel_list[my_leader], path, payload, req):
             has_leader = False
+            leader_election()
+            contact_leader(path, payload, req)
 
 
 
