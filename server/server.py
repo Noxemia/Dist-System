@@ -13,7 +13,7 @@ import argparse
 import random
 from threading import Thread
 
-from bottle import Bottle, run, request, template, HTTPResponse
+from bottle import Bottle, run, request, template, response
 import requests
 # ------------------------------------------------------------------------------------------------------
 try:
