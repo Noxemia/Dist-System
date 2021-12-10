@@ -20,6 +20,7 @@ try:
 
     # board stores all message on the system
     board = {0: "Welcome to Distributed Systems Course"}
+    shadow_board = dict()
 
     # ------------------------------------------------------------------------------------------------------
     # BOARD FUNCTIONS
@@ -78,6 +79,11 @@ try:
         global board, node_id
         print board
         return template('server/boardcontents_template.tpl', board_title='Vessel {}'.format(node_id), board_dict=sorted(board.iteritems()))
+
+    @app.get('/get_board')
+    def get_board():
+        global board, shadow_board
+        return json.dumps({"board":board, "shadow":shadow_board})
 
     # ------------------------------------------------------------------------------------------------------
 
@@ -192,6 +198,19 @@ try:
                 success = contact_vessel(vessel_ip, path, payload, req)
                 if not success:
                     print "\n\nCould not contact vessel {}\n\n".format(vessel_id)
+
+    def get_consistancy():
+        global board, shadow_board, vessel_list, node_id
+        suc = []
+
+        for vessel_id, vessel_ip in vessel_list.items():
+            if int(vessel_id) != node_id:  # don't propagate to yourself
+                res = requests.get('http://{}/get_board'.format(vessel_ip))
+                if res.status_code == 200:
+                    suc.append(res)
+        
+        print(suc)
+
 
     # ------------------------------------------------------------------------------------------------------
     # EXECUTION
