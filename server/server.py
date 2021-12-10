@@ -37,7 +37,7 @@ try:
                 board[int(entry_sequence)] = element
                 success = True
         except Exception as e:
-            print e
+            print (e)
         return success
 
     # This function will update an existing element in the board dictionary
@@ -48,7 +48,7 @@ try:
             board[int(entry_sequence)] = modified_element
             success = True
         except Exception as e:
-            print e
+            print (e)
         return success
 
     # This function will remove an element from the board dictionary
@@ -59,7 +59,7 @@ try:
             board.pop(int(entry_sequence))
             success = True
         except Exception as e:
-            print e
+            print (e)
         return success
 
     # ------------------------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ try:
     @app.get('/board')
     def get_board():
         global board, node_id
-        print board
+        print (board)
         return template('server/boardcontents_template.tpl', board_title='Vessel {}'.format(node_id), board_dict=sorted(board.iteritems()))
 
     @app.get('/get_board')
@@ -112,22 +112,22 @@ try:
             thread.start()
             return True
         except Exception as e:
-            print e
+            print (e)
         return False
 
     @app.post('/board/<element_id:int>/')
     def client_action_received(element_id):
         global board, node_id
 
-        print "You receive an element"
-        print "id is ", node_id
+        print ("You receive an element")
+        print ("id is "), node_id
         # Get the entry from the HTTP body
         entry = request.forms.get('entry')
 
         delete_option = request.forms.get('delete')
         # 0 = modify, 1 = delete
 
-        print "the delete option is ", delete_option
+        print ("the delete option is "), delete_option
 
         # If a post request is received on board/elementid with the request data of delete = 0 we call the modify function with
         # the data received.
@@ -154,7 +154,7 @@ try:
     def propagation_received(action, element_id):
         # get entry from http body
         entry = request.forms.get('entry')
-        print "the action is", action
+        print ("the action is"), action
 
         # Handle requests
         # for example action == "ADD":
@@ -183,13 +183,13 @@ try:
             elif 'GET' in req:
                 res = requests.get('http://{}{}'.format(vessel_ip, path))
             else:
-                print 'Non implemented feature!'
+                print ('Non implemented feature!')
             # result is in res.text or res.json()
             print(res.text)
             if res.status_code == 200:
                 success = True
         except Exception as e:
-            print e
+            print (e)
         return success
 
     def propagate_to_vessels(path, payload=None, req='POST'):
@@ -199,7 +199,7 @@ try:
             if int(vessel_id) != node_id:  # don't propagate to yourself
                 success = contact_vessel(vessel_ip, path, payload, req)
                 if not success:
-                    print "\n\nCould not contact vessel {}\n\n".format(vessel_id)
+                    print("\n\nCould not contact vessel {}\n\n".format(vessel_id))
 
     def get_consistancy():
         global board, shadow_board, vessel_list, node_id
@@ -240,7 +240,7 @@ try:
         try:
             run(app, host=vessel_list[str(node_id)], port=port)
         except Exception as e:
-            print e
+            print (e)
     # ------------------------------------------------------------------------------------------------------
     if __name__ == '__main__':
         main()
