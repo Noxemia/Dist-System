@@ -212,7 +212,7 @@ try:
                     suc.append(res)
         
         for respons in suc:
-            print(json.loads(respons))
+            print(respons.body)
         
 
 
