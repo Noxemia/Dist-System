@@ -211,7 +211,9 @@ try:
                 if res.status_code == 200:
                     suc.append(res)
         
-        print(suc)
+        for respons in suc:
+            print(json.loads(respons.forms.get('board')))
+        
 
 
     # ------------------------------------------------------------------------------------------------------
