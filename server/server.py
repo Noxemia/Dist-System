@@ -36,7 +36,7 @@ try:
         res = requests.get('http://10.1.0.1/sequence')
         seq = 0
         if res.status_code == 200:
-            print("BEFORE")
+            print("BEFORE", res)
             seq = json.loads(res.json())
             print("AFTER")
         else:
@@ -104,9 +104,9 @@ try:
         if node_id == sequenser:
             print("Hello World!")
             seq += 1
-            print(type(str(seq)))
-            return json.dumps({"seq": str(seq)})
-
+            retval = json.dumps({"seq": str(seq)})
+            print(retval)
+            return {"seq": seq}
 
     # ------------------------------------------------------------------------------------------------------
 
