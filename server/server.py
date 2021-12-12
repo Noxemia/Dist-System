@@ -36,9 +36,9 @@ try:
         res = requests.get('http://10.1.0.1/sequence')
         seq = 0
         if res.status_code == 200:
-            print("BEFORE", res)
+            print("BEFORE", res.json())
             seq = json.loads(res.json())
-            print("AFTER")
+            print("AFTER", seq)
         else:
             print("Sequencer failed!!!")    
         try:
