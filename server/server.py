@@ -20,7 +20,8 @@ try:
 
     # board stores all message on the system
     board = {0: "Welcome to Distributed Systems Course"}
-    shadow_board = dict()
+
+    sequenser = 1
 
     # ------------------------------------------------------------------------------------------------------
     # BOARD FUNCTIONS
@@ -32,6 +33,13 @@ try:
     def add_new_element_to_store(entry_sequence, element, is_propagated_call=False):
         global board, node_id
         success = False
+        res = requests.get('http://10.1.0.1/sequence')
+        seq = 0
+        if res.status_code == 200:
+            seq = json.loads(res)["seq"]
+            print(seq)
+        else:
+            print("Sequencer failed!!!")    
         try:
             if entry_sequence not in board:
                 board[int(entry_sequence)] = element
@@ -72,7 +80,7 @@ try:
     def index():
         global board, node_id
         if int(node_id) == 1:
-            get_consistancy()
+            get_consistency()
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
                         board_dict=sorted({"0": board, }.iteritems()), members_name_string='YOUR NAME')
 
@@ -84,8 +92,17 @@ try:
 
     @app.get('/get_board')
     def get_board():
-        global board, shadow_board
-        return json.dumps({"board":board, "shadow":shadow_board})
+        global board
+        return json.dumps({"board":board})
+
+    seq = 0
+    @app.get('/sequence')
+    def get_sequence():
+        global seq, node_id
+        if node_id == sequenser:
+            seq += 1
+            return json.dumps({"seq": seq})
+
 
     # ------------------------------------------------------------------------------------------------------
 
@@ -201,8 +218,8 @@ try:
                 if not success:
                     print("\n\nCould not contact vessel {}\n\n".format(vessel_id))
 
-    def get_consistancy():
-        global board, shadow_board, vessel_list, node_id
+    def get_consistency():
+        global board,  vessel_list, node_id
         suc = []
 
         for vessel_id, vessel_ip in vessel_list.items():
@@ -211,10 +228,10 @@ try:
                 if res.status_code == 200:
                     suc.append(res)
         
+        boards = []
         for respons in suc:
-            print(respons.json())
-        
-
+            resjson = json.loads(respons.json())
+            boards.append(resjson.board)
 
     # ------------------------------------------------------------------------------------------------------
     # EXECUTION
