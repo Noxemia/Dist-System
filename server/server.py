@@ -33,14 +33,6 @@ try:
     def add_new_element_to_store(entry_sequence, element, is_propagated_call=False):
         global board, node_id
         success = False
-        res = requests.get('http://10.1.0.1/sequence')
-        seq = 0
-        if res.status_code == 200:
-            print("BEFORE", res.json())
-            seq = res.json().get('seq')
-            print("AFTER", seq)
-        else:
-            print("Sequencer failed!!!")    
         try:
             if entry_sequence not in board:
                 board[int(entry_sequence)] = element
@@ -120,6 +112,16 @@ try:
             new_entry = request.forms.get('entry')
             # When generating an ID for a new element we take the largest ID(key) in the dictionary and add one
             # if the dictionary is empty we start at 0
+            res = requests.get('http://10.1.0.1/sequence')
+            seq = 0
+            if res.status_code == 200:
+                print("BEFORE", res.json())
+                seq = res.json().get('seq')
+                print("AFTER", seq)
+            else:
+                print("Sequencer failed!!!")    
+
+
             if len(board) != 0:
                 element_id = int(max(board.keys()) + 1)
             else:
