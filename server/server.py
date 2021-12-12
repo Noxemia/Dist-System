@@ -37,7 +37,7 @@ try:
         seq = 0
         if res.status_code == 200:
             print("BEFORE", res.json())
-            seq = str.split(res.json(), ":")[1][0:-1]
+            seq =res.json()['str']
             print("AFTER", seq)
         else:
             print("Sequencer failed!!!")    
