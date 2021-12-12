@@ -227,6 +227,7 @@ try:
 
     def get_consistency():
         global board,  vessel_list, node_id
+        return None
         suc = []
 
         for vessel_id, vessel_ip in vessel_list.items():
