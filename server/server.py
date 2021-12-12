@@ -230,6 +230,7 @@ try:
 
     def get_consistency():
         global board,  vessel_list, node_id
+        print("I got called")
 
         boards=[]
         seq_boards = []
