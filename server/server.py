@@ -115,9 +115,8 @@ try:
             res = requests.get('http://10.1.0.1/sequence')
             seq = 0
             if res.status_code == 200:
-                print("BEFORE", res.json())
                 seq = res.json().get('seq')
-                print("AFTER", seq)
+                print("Sequence: ", seq)
             else:
                 print("Sequencer failed!!!")    
 
@@ -130,7 +129,7 @@ try:
 
             # Then we propagate the new element
             thread = Thread(target=propagate_to_vessels, args=(
-                '/propagate/ADD/' + str(element_id), {'entry': new_entry}, 'POST'))
+                '/propagate/ADD/' + str(element_id), {'entry': new_entry, 'seq': seq}, 'POST'))
             thread.daemon = True
             thread.start()
             return True
@@ -177,11 +176,13 @@ try:
     def propagation_received(action, element_id):
         # get entry from http body
         entry = request.forms.get('entry')
+        seq = request.forms.get('seq')
         print ("the action is"), action
 
         # Handle requests
         # for example action == "ADD":
         if action == "ADD":
+            print("Recivied ADD with seq:", seq)
             add_new_element_to_store(element_id, entry, True)
 
         # Modify the board entry
