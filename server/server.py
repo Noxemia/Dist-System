@@ -100,8 +100,11 @@ try:
     @app.get('/sequence')
     def get_sequence():
         global seq, node_id
+        print("Hello World!", node_id)
         if node_id == sequenser:
+            print("Hello World!")
             seq += 1
+            print(type(str(seq)))
             return json.dumps({"seq": str(seq)})
 
 
