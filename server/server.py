@@ -36,7 +36,7 @@ try:
         res = requests.get('http://10.1.0.1/sequence')
         seq = 0
         if res.status_code == 200:
-            seq = json.loads(res.json())["seq"]
+            seq = json.loads(res.json())
             print("-----", seq)
         else:
             print("Sequencer failed!!!")    
@@ -101,7 +101,7 @@ try:
         global seq, node_id
         if node_id == sequenser:
             seq += 1
-            return json.dumps({"seq": seq})
+            return json.dumps({"seq": str(seq)})
 
 
     # ------------------------------------------------------------------------------------------------------
