@@ -36,7 +36,7 @@ try:
         res = requests.get('http://10.1.0.1/sequence')
         seq = 0
         if res.status_code == 200:
-            seq = json.loads(res)
+            seq = json.loads(res.json())["seq"]
             print("-----", seq)
         else:
             print("Sequencer failed!!!")    
