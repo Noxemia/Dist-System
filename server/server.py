@@ -37,7 +37,7 @@ try:
         seq = 0
         if res.status_code == 200:
             seq = json.loads(res)
-            print(seq)
+            print("-----", seq)
         else:
             print("Sequencer failed!!!")    
         try:
