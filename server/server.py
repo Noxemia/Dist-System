@@ -236,8 +236,17 @@ try:
         boards=[]
         seq_boards = []
 
-        boards.append(board)
-        seq_boards.append(seq_board)
+        compboard = {}
+        for key in board.keys():
+            compboard[str(key)] = board.get(key)
+
+        compseq_boards = {}
+        for key in seq_boards.keys():
+            compseq_boards[str(key)] = seq_boards.get(key)
+
+
+        boards.append(compboard)
+        seq_boards.append(compseq_boards)
 
         for vessel_id, vessel_ip in vessel_list.items():
             if int(vessel_id) != node_id:  # don't propagate to yourself
