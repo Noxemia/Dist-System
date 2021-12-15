@@ -235,8 +235,8 @@ try:
         boards=[]
         seq_boards = []
 
-        #boards.append(board)
-        #seq_boards.append(seq_board)
+        boards.append(board)
+        seq_boards.append(seq_board)
         test = {"xd": "lmao"}
         testj = json.dumps(test)
         testb = json.loads(testj)
