@@ -74,8 +74,7 @@ try:
     @app.route('/')
     def index():
         global board, node_id
-        if int(node_id) == 2:
-            get_consistency()
+        get_consistency()
         return template('server/index.tpl', board_title='Vessel {}'.format(node_id),
                         board_dict=sorted({"0": board, }.iteritems()), members_name_string='YOUR NAME')
 
