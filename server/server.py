@@ -98,9 +98,7 @@ try:
     @app.get('/sequence')
     def get_sequence():
         global seq, node_id
-        print("Hello World!", node_id)
         if node_id == sequenser:
-            print("Hello World!")
             seq += 1
             retval = json.dumps({"seq": str(seq)})
             print(retval)
@@ -233,18 +231,13 @@ try:
 
     def get_consistency():
         global board,  vessel_list, node_id, seq_board
-        print("I got called")
+
 
         boards=[]
         seq_boards = []
 
         boards.append(board)
         seq_boards.append(seq_board)
-        test = {"xd": "lmao"}
-        testj = json.dumps(test)
-        testb = json.loads(testj)
-        print(testb, "\n")
-        print(type(testj), " ---  ", type(testb))
 
         for vessel_id, vessel_ip in vessel_list.items():
             if int(vessel_id) != node_id:  # don't propagate to yourself
@@ -252,8 +245,7 @@ try:
                 if res.status_code == 200:
                     boards.append(res.json().get('board'))
                     seq_boards.append(res.json().get('seq_board'))
-        #print(boards)
-        #print(seq_boards)
+
         # board(msgid: msg)
         # seq_board(msgid: seq)
         # dict = {msgid: (seq, msg)}
@@ -268,11 +260,9 @@ try:
             iseq_board = seq_boards[i]
             iboard = boards[i]
             for id in iseq_board.keys():
-                print(id)
                 try:
                     msg = iboard.get(id)
                     seq_bm = int(iseq_board.get(id))
-                    print("Msg and seq_bm", msg, "-----",seq_bm)
                     if  seq_bm > int(data.get(id)[0]) and int(data.get(id)[0]) != -1:
                         data[id] = (seq_bm, msg)
                     if seq_bm == -1:
