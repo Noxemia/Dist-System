@@ -276,6 +276,7 @@ try:
         newboard = {}
         newseq_board = {}
 
+        print("DATA:", data)
         for id in data.keys():
             newseq = data.get(str(id))[0]   
             newseq_board[id] = newseq
@@ -284,7 +285,7 @@ try:
             
         board = newboard
         seq_board = newseq_board
-                
+        print(board)
 
 
     # ------------------------------------------------------------------------------------------------------
