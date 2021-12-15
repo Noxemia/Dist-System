@@ -247,15 +247,14 @@ try:
             if int(vessel_id) != node_id:  # don't propagate to yourself
                 res=requests.get('http://{}/get_board'.format(vessel_ip))
                 if res.status_code == 200:
-                    boards.append(json.load(res.json().get('board')))
-                    seq_boards.append(json.load(res.json().get('seq_board')))
+                    boards.append(res.json().get('board'))
+                    seq_boards.append(res.json().get('seq_board'))
 
-        print(boards)
-        print(seq_boards)
+        #print(boards)
+        #print(seq_boards)
 
-        #for i in range(len(boards)):
-        #    None
-
+        for i in range(len(boards)):
+            print(boards[i].values())
 
     # ------------------------------------------------------------------------------------------------------
     # EXECUTION
