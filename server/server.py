@@ -276,8 +276,17 @@ try:
                         data[id] = (seq_bm, None)
                 except Exception as e:
                     print(e)
-        print(data)        
+        newboard = {}
+        newseq_board = {}
+
+        for id in data.keys():
+            newseq = data.get(id)[0]   
+            newseq_board[id] = newseq
+            if newseq != -1:
+                newboard[id] = data.get(id)[1]
             
+        board = newboard
+        seq_board = newseq_board
                 
 
 
