@@ -238,8 +238,8 @@ try:
         boards.append(board)
         seq_boards.append(seq_board)
         test = {"xd": "lmao"}
-        testj = json.dump(test)
-        testb = json.load(testj)
+        testj = json.dumps(test)
+        testb = json.loads(testj)
         print(testb, "\n")
         print(type(testj), " ---  ", type(testb))
 
