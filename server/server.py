@@ -259,15 +259,17 @@ try:
             iseq_board = seq_boards[i]
             iboard = boards[i]
             for id in iseq_board.keys():
+                print(id)
                 try:
                     msg = iboard.get(id)
                     seq_bm = int(iseq_board.get(id))
+                    print("Msg and seq_bm", msg, "-----",seq_bm)
                     if  seq_bm > int(data.get(id)[1]) and int(data.get(id)[1]) != -1:
                         data[id] = (seq_bm, msg)
                     if seq_bm == -1:
                         data[id] = (seq_bm, None)
-                except:
-                    None
+                except Exception as e:
+                    print(e)
         print(data)        
             
                 
