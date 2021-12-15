@@ -262,12 +262,14 @@ try:
             for id in iseq_board.keys():
 
                 try:
+                    print("Gets none:", type(id))
+                    print("iboard", iboard)
                     msg = iboard.get(id)
                     seq_bm = int(iseq_board.get(id))
                     if  seq_bm > int(data.get(id)[0]) and int(data.get(id)[0]) != -1:
                         data[id] = (seq_bm, msg)
                     if seq_bm == -1:
-                        print("Gets none:", seq_bm, type(id))
+                        
                         data[id] = (seq_bm, None)
                 except Exception as e:
                     print(e)
