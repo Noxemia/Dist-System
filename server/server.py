@@ -254,12 +254,13 @@ try:
             for k in seq_boards[i].keys():
                 data[str(k)] = (-2, "")
 
-
+        print(data)
 
         for i in range(len(boards)):
             iseq_board = seq_boards[i]
             iboard = boards[i]
             for id in iseq_board.keys():
+
                 try:
                     msg = iboard.get(id)
                     seq_bm = int(iseq_board.get(id))
