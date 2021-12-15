@@ -259,6 +259,7 @@ try:
         for i in range(len(boards)):
             iseq_board = seq_boards[i]
             iboard = boards[i]
+            print(i, " ----------------------------------------------- ")
             for id in iseq_board.keys():
                 try:
                     print("Gets none:", type(id))
