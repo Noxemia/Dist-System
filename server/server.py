@@ -254,7 +254,7 @@ try:
         #print(seq_boards)
 
         for i in range(len(boards)):
-            print(boards[i].values())
+            print(boards[i].values()[0] == "Welcome to Distributed Systems Course")
 
     # ------------------------------------------------------------------------------------------------------
     # EXECUTION
