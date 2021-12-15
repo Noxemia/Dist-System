@@ -266,6 +266,7 @@ try:
                     if  seq_bm > int(data.get(id)[0]) and int(data.get(id)[0]) != -1:
                         data[id] = (seq_bm, msg)
                     if seq_bm == -1:
+                        print("Gets none:", seq_bm, type(id))
                         data[id] = (seq_bm, None)
                 except Exception as e:
                     print(e)
