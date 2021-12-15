@@ -260,11 +260,11 @@ try:
             iseq_board = seq_boards[i]
             iboard = boards[i]
             for id in iseq_board.keys():
-
                 try:
                     print("Gets none:", type(id))
                     print("iboard", iboard)
                     msg = iboard.get(id)
+                    print("id", id)
                     seq_bm = int(iseq_board.get(id))
                     if  seq_bm > int(data.get(id)[0]) and int(data.get(id)[0]) != -1:
                         data[id] = (seq_bm, msg)
