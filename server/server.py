@@ -266,8 +266,8 @@ try:
                     msg = iboard.get(id)
                     print("id", id)
                     seq_bm = int(iseq_board.get(id))
-                    if  seq_bm > int(data.get(id)[0]) and int(data.get(id)[0]) != -1:
-                        data[id] = (seq_bm, msg)
+                    if  seq_bm > int(data.get(str(id))[0]) and int(data.get(str(id))[0]) != -1:
+                        data[str(id)] = (seq_bm, msg)
                     if seq_bm == -1:
                         
                         data[id] = (seq_bm, None)
