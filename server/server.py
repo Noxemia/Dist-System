@@ -265,11 +265,12 @@ try:
                     print("iboard", iboard)
                     msg = iboard.get(id)
                     print("id", id)
+                    print("msg", msg)
                     seq_bm = int(iseq_board.get(id))
                     if  seq_bm > int(data.get(str(id))[0]) and int(data.get(str(id))[0]) != -1:
                         data[str(id)] = (seq_bm, msg)
                     if seq_bm == -1:
-                        
+                        print("hei")
                         data[id] = (seq_bm, None)
                 except Exception as e:
                     print(e)
