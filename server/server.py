@@ -235,8 +235,8 @@ try:
         boards=[]
         seq_boards = []
 
-        boards.append(board)
-        seq_boards.append(seq_board)
+        #boards.append(board)
+        #seq_boards.append(seq_board)
         test = {"xd": "lmao"}
         testj = json.dumps(test)
         testb = json.loads(testj)
@@ -257,7 +257,7 @@ try:
         data = {}
         for i in range((len(seq_boards))):
             for k in seq_boards[i].keys():
-                data[k] = (-2, "")
+                data[str(k)] = (-2, "")
 
 
 
@@ -270,7 +270,7 @@ try:
                     msg = iboard.get(id)
                     seq_bm = int(iseq_board.get(id))
                     print("Msg and seq_bm", msg, "-----",seq_bm)
-                    if  seq_bm > int(data.get(id)[1]) and int(data.get(id)[1]) != -1:
+                    if  seq_bm > int(data.get(id)[0]) and int(data.get(id)[0]) != -1:
                         data[id] = (seq_bm, msg)
                     if seq_bm == -1:
                         data[id] = (seq_bm, None)
