@@ -21,7 +21,7 @@ try:
 
     # board stores all message on the system
     board = {0: "Welcome to Distributed Systems Course"}
-    seq_board = {0:0}
+    seq_board = {0:'0'}
 
     sequenser = 1
 
@@ -229,11 +229,14 @@ try:
                     print("\n\nCould not contact vessel {}\n\n".format(vessel_id))
 
     def get_consistency():
-        global board,  vessel_list, node_id
+        global board,  vessel_list, node_id, seq_board
         print("I got called")
 
         boards=[]
         seq_boards = []
+
+        boards.append(board)
+        seq_boards.append(seq_board)
 
         for vessel_id, vessel_ip in vessel_list.items():
             if int(vessel_id) != node_id:  # don't propagate to yourself
@@ -242,11 +245,12 @@ try:
                     boards.append(res.json().get('board'))
                     seq_boards.append(res.json().get('seq_board'))
 
-        for i in range(len(boards)):
-            print(i)
-            print(boards[i])
-            print(seq_boards[i])
-            print("--------------")
+        print(boards)
+        print(seq_boards)
+
+        #for i in range(len(boards)):
+        #    None
+
 
     # ------------------------------------------------------------------------------------------------------
     # EXECUTION
