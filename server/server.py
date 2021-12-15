@@ -255,6 +255,12 @@ try:
         # seq_board(msgid: seq)
         # dict = {msgid: (seq, msg)}
         data = {}
+        for i in range((len(seq_boards))):
+            for k in seq_boards[i].keys():
+                data[k] = (-2, "")
+
+
+
         for i in range(len(boards)):
             iseq_board = seq_boards[i]
             iboard = boards[i]
