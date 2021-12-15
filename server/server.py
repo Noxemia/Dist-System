@@ -237,7 +237,12 @@ try:
 
         boards.append(board)
         seq_boards.append(seq_board)
-        
+        test = {"xd": "lmao"}
+        testj = json.dump(test)
+        testb = json.load(testj)
+        print(testb, "\n")
+        print(type(testj), " ---  ", type(testb))
+
         for vessel_id, vessel_ip in vessel_list.items():
             if int(vessel_id) != node_id:  # don't propagate to yourself
                 res=requests.get('http://{}/get_board'.format(vessel_ip))
