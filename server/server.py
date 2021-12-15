@@ -249,12 +249,29 @@ try:
                 if res.status_code == 200:
                     boards.append(res.json().get('board'))
                     seq_boards.append(res.json().get('seq_board'))
-
         #print(boards)
         #print(seq_boards)
-
+        # board(msgid: msg)
+        # seq_board(msgid: seq)
+        # dict = {msgid: (seq, msg)}
+        data = {}
         for i in range(len(boards)):
-            print(boards[i].values()[0] == "Welcome to Distributed Systems Course")
+            iseq_board = seq_boards[i]
+            iboard = boards[i]
+            for id in iseq_board.keys():
+                try:
+                    msg = iboard.get(id)
+                    seq_bm = int(iseq_board.get(id))
+                    if  seq_bm > int(data.get(id)[1]) and int(data.get(id)[1]) != -1:
+                        data[id] = (seq_bm, msg)
+                    if seq_bm == -1:
+                        data[id] = (seq_bm, None)
+                except:
+                    None
+        print(data)        
+            
+                
+
 
     # ------------------------------------------------------------------------------------------------------
     # EXECUTION
