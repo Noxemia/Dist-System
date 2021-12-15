@@ -242,8 +242,8 @@ try:
             if int(vessel_id) != node_id:  # don't propagate to yourself
                 res=requests.get('http://{}/get_board'.format(vessel_ip))
                 if res.status_code == 200:
-                    boards.append(json.loads(res.json().get('board')))
-                    seq_boards.append(json.loads(res.json().get('seq_board')))
+                    boards.append(json.load(res.json().get('board')))
+                    seq_boards.append(json.load(res.json().get('seq_board')))
 
         print(boards)
         print(seq_boards)
