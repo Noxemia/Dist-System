@@ -263,31 +263,23 @@ try:
             for k in seq_boards[i].keys():
                 data[str(k)] = (-2, "")
 
-        print(data)
 
         for i in range(len(boards)):
             iseq_board = seq_boards[i]
             iboard = boards[i]
-            print(i, " ----------------------------------------------- ")
             for id in iseq_board.keys():
                 try:
-                    print("Gets none:", type(id))
-                    print("iboard", iboard)
                     msg = iboard.get(id)
-                    print("id", id)
-                    print("msg", msg)
                     seq_bm = int(iseq_board.get(id))
                     if  seq_bm > int(data.get(str(id))[0]) and int(data.get(str(id))[0]) != -1:
                         data[str(id)] = (seq_bm, msg)
                     if seq_bm == -1:
-                        print("hei")
                         data[id] = (seq_bm, None)
                 except Exception as e:
                     print(e)
         newboard = {}
         newseq_board = {}
 
-        print("DATA:", data)
         for id in data.keys():
             newseq = data.get(str(id))[0]   
             newseq_board[id] = newseq
@@ -296,7 +288,6 @@ try:
             
         board = newboard
         seq_board = newseq_board
-        print(board)
 
 
     # ------------------------------------------------------------------------------------------------------
