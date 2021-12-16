@@ -25,6 +25,7 @@ function update_contents(){
 
 function reload_countdown(remaining) {
     $("#countdown_placeholder").text("reloading page in: " + remaining + " seconds.");
+    alert("Omegalul")
     if (remaining <= 0) {
         remaining = page_reload_timeout;
         update_contents();
