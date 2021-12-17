@@ -130,11 +130,13 @@ try:
 
     @app.post("/collect_votes")
     def collect_votes():
-        global total_votes
+        global total_votes, vessel_list
         votes = request.forms.get('votes')
         lvotes = json.loads(votes)
         total_votes.append(lvotes)
         print("total votes: ", total_votes)
+        if len(total_votes) == len(vessel_list):
+            calc_winner()
 
 
     @app.post('/vote/attack')
