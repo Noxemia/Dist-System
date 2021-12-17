@@ -173,6 +173,19 @@ try:
         votes.append(False)
         all_votes()
 
+
+    @app.post('/vote/byzantine')
+    def vote_attack():
+        global votes, vessel_list
+        bvotes = compute_byzantine_vote_round1(3, len(vessel_list), True)
+        #for vote in 
+        try: 
+            res = requests.post(
+                        'http://{}{}'.format(vessel_ip, path), data=payload)
+        except Exception as e:
+            print(e)
+        all_votes()
+
     @app.get('/vote/result')
     def vote_results():
         global result
