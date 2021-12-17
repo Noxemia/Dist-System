@@ -18,7 +18,7 @@ var page_reload_count = 0;
 function update_contents(){
     page_reload_count += 1;
     $("#vote_result_placeholder").load("/vote/result", function (data, status) {
-    	//alert("Data: " + data + "\nStatus: " + status);
+    	alert("Data: " + data + "\nStatus: " + status);
     	$("#boardcontents_status_placeholder").text(page_reload_count + ": " + status);
     });
 }

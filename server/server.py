@@ -93,16 +93,19 @@ try:
     def vote_attack():
         global votes
         votes.append(True)
-
+        print(votes)
+    
     @app.post('/vote/retreat')
     def vote_attack():
         global votes
         votes.append(False)
+        print(votes)
+
 
     @app.get('/vote/result')
     def vote_results():
         global votes
-        return votes
+        return json.dumps(votes)
 
 
 
