@@ -30,7 +30,7 @@ try:
 
     # This functions will add an new element
 
-    def add_new_element_to_store(entry_sequence, element,s eq, is_propagated_call=False):
+    def add_new_element_to_store(entry_sequence, element,seq, is_propagated_call=False):
         global board, node_id
         success = False
         try:
