@@ -103,6 +103,10 @@ try:
         global votes
         votes.append(False)
         print(votes)
+        thread = Thread(target=propagate_to_vessels,
+                        args=('/vote/retreat', None, 'POST'))
+        thread.daemon = True
+        thread.start()
 
     @app.get('/vote/result')
     def vote_results():
