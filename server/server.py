@@ -107,7 +107,7 @@ try:
     def calc_winner():
         global result,total_votes
         final_vec = []
-        for i in range(total_votes[0]):
+        for i in range(len(total_votes[0])):
             compval = total_votes[0][i]
             differ = False
             for list in total_votes:
