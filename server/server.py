@@ -23,8 +23,6 @@ try:
     board = {0: "Welcome to Distributed Systems Course"}
     seq_board = {0:'0'}
 
-    sequenser = 1
-
     # ------------------------------------------------------------------------------------------------------
     # BOARD FUNCTIONS
     # You will probably need to modify them
@@ -93,16 +91,6 @@ try:
         global board
         return json.dumps({"board": board, 'seq_board': seq_board})
 
-    seq = 0
-
-    @app.get('/sequence')
-    def get_sequence():
-        global seq, node_id
-        if node_id == sequenser:
-            seq += 1
-            retval = json.dumps({"seq": str(seq)})
-            print(retval)
-            return {"seq": seq}
 
     # ------------------------------------------------------------------------------------------------------
 
@@ -116,14 +104,7 @@ try:
             new_entry = request.forms.get('entry')
             # When generating an ID for a new element we take the largest ID(key) in the dictionary and add one
             # if the dictionary is empty we start at 0
-            res = requests.get('http://10.1.0.1/sequence')
-            seq = 0
-            if res.status_code == 200:
-                seq = res.json().get('seq')
-                print("Sequence: ", seq)
-            else:
-                print("Sequencer failed!!!")
-
+            res = time.time()
             element_id = str(random.randint(0, 1000))
             while element_id in board:
                 element_id = str(random.randint(0, 1000))
@@ -131,7 +112,7 @@ try:
 
             # Then we propagate the new element
             thread=Thread(target=propagate_to_vessels, args=(
-                '/propagate/ADD/' + str(element_id), {'entry': new_entry, 'seq': seq}, 'POST'))
+                '/propagate/ADD/' + str(element_id), {'entry': new_entry, 'seq': res}, 'POST'))
             thread.daemon=True
             thread.start()
             return True
