@@ -104,7 +104,7 @@ try:
             new_entry = request.forms.get('entry')
             # When generating an ID for a new element we take the largest ID(key) in the dictionary and add one
             # if the dictionary is empty we start at 0
-            res = int(time.time())
+            res = int(time.time()*1000)
             element_id = str(random.randint(0, 1000))
             while element_id in board:
                 element_id = str(random.randint(0, 1000))
