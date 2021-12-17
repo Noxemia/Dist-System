@@ -47,7 +47,7 @@ try:
         global board, node_id, seq_board
         success = False
         try:
-            seq_board[entry_sequence] = seq
+            seq_board[int(entry_sequence)] = seq
             board[int(entry_sequence)] = modified_element
             success = True
         except Exception as e:
