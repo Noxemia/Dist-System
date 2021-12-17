@@ -25,6 +25,8 @@ try:
 
     total_votes = []
 
+    result = "Result is: ..."
+
     # Simple methods that the byzantine node calls to decide what to vote.
     # Compute byzantine votes for round 1, by trying to create
     # a split decision.
@@ -102,6 +104,30 @@ try:
             total_votes.append(votes)
 
 
+    def calc_winner():
+        global votes, result
+        final_vec = []
+        for i in range(votes[0]):
+            compval = votes[0][i]
+            differ = False
+            for list in votes:
+                if list[i] != compval:
+                    differ = True
+            if not differ:
+                final_vec.append(compval)
+        atccnt = 0
+        retcnt = 0
+        for val in final_vec:
+            if val:
+                atccnt += 1
+            else:
+                retcnt += 1
+        if atccnt >= retcnt:
+            result = "Result is attack!"
+        else:
+            result = "Result is retreat!"
+
+
     @app.post("/collect_votes")
     def collect_votes():
         global total_votes
@@ -147,8 +173,8 @@ try:
 
     @app.get('/vote/result')
     def vote_results():
-        global votes
-        return json.dumps(votes)
+        global result
+        return json.dumps(result)
 
     # ------------------------------------------------------------------------------------------------------
     # DISTRIBUTED COMMUNICATIONS FUNCTIONS
