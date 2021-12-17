@@ -21,6 +21,9 @@ try:
     #board stores all message on the system 
     board = {0 : "Welcome to Distributed Systems Course"} 
 
+
+    votes = []
+
     #Simple methods that the byzantine node calls to decide what to vote.
     #Compute byzantine votes for round 1, by trying to create
     #a split decision.
@@ -86,7 +89,24 @@ try:
     
     #------------------------------------------------------------------------------------------------------
     
-    
+    @app.post('/vote/attack')
+    def vote_attack():
+        global votes
+        votes.append(True)
+
+    @app.post('/vote/retreat')
+    def vote_attack():
+        global votes
+        votes.append(False)
+
+    @app.get('/vote/result')
+    def vote_results():
+        global votes
+        return votes
+
+
+
+
 
     # ------------------------------------------------------------------------------------------------------
     # DISTRIBUTED COMMUNICATIONS FUNCTIONS
