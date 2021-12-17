@@ -34,7 +34,7 @@ try:
         global board, node_id
         success = False
         try:
-            seq_board[entry_sequence] = seq
+            seq_board[int(entry_sequence)] = seq
             if entry_sequence not in board:
                 board[int(entry_sequence)] = element
                 success = True
@@ -59,7 +59,7 @@ try:
         global board, node_id
         success = False
         try:
-            seq_board[entry_sequence] = -1
+            seq_board[int(entry_sequence)] = -1
             board.pop(int(entry_sequence))
             success = True
         except Exception as e:
