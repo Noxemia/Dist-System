@@ -99,6 +99,7 @@ try:
                         args=('/collect_votes', payload, 'POST'))
             thread.daemon = True
             thread.start()
+            total_votes.append(votes)
 
 
     @app.post("/collect_votes")
