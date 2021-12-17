@@ -23,6 +23,8 @@ try:
 
     votes = []
 
+    total_votes = []
+
     # Simple methods that the byzantine node calls to decide what to vote.
     # Compute byzantine votes for round 1, by trying to create
     # a split decision.
@@ -88,6 +90,26 @@ try:
 
     # ------------------------------------------------------------------------------------------------------
 
+    def all_votes():
+        global votes, vessel_list, total_votes
+        print("Called all votes")
+        if len(votes) == len(vessel_list):
+            payload = {"votes": json.dumps(votes)}
+            thread = Thread(target=propagate_to_vessels,
+                        args=('/collect_votes', payload, 'POST'))
+            thread.daemon = True
+            thread.start()
+
+
+    @app.post("/collect_votes")
+    def collect_votes():
+        global total_votes
+        votes = request.forms.get('votes')
+        lvotes = json.loads(votes)
+        total_votes.append(lvotes)
+        print("total votes: ", total_votes)
+
+
     @app.post('/vote/attack')
     def vote_attack():
         global votes
@@ -97,12 +119,13 @@ try:
                         args=('/add/attack', None, 'POST'))
         thread.daemon = True
         thread.start()
+        all_votes()
 
     @app.post('/add/attack')
     def add_attack():
         global votes
         votes.append(True)
-
+        all_votes()
 
     @app.post('/vote/retreat')
     def vote_attack():
@@ -113,11 +136,13 @@ try:
                         args=('/add/retreat', None, 'POST'))
         thread.daemon = True
         thread.start()
+        all_votes()
 
     @app.post('/add/retreat')
     def add_attack():
         global votes
-        votes.append(True)
+        votes.append(False)
+        all_votes()
 
     @app.get('/vote/result')
     def vote_results():
