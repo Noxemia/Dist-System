@@ -94,9 +94,15 @@ try:
         votes.append(True)
         print(votes)
         thread = Thread(target=propagate_to_vessels,
-                        args=('/vote/attack', None, 'POST'))
+                        args=('/add/attack', None, 'POST'))
         thread.daemon = True
         thread.start()
+
+    @app.post('/add/attack')
+    def add_attack():
+        global votes
+        votes.append(True)
+
 
     @app.post('/vote/retreat')
     def vote_attack():
@@ -104,9 +110,14 @@ try:
         votes.append(False)
         print(votes)
         thread = Thread(target=propagate_to_vessels,
-                        args=('/vote/retreat', None, 'POST'))
+                        args=('/add/retreat', None, 'POST'))
         thread.daemon = True
         thread.start()
+
+    @app.post('/add/retreat')
+    def add_attack():
+        global votes
+        votes.append(True)
 
     @app.get('/vote/result')
     def vote_results():
