@@ -141,7 +141,7 @@ try:
         # the data received.
         if delete_option == "0":
             res = int(time.time()*1000)
-            modify_element_in_store(element_id, entry,res, True)
+            modify_element_in_store(int(element_id), entry,res, True)
             thread=Thread(target=propagate_to_vessels, args=(
                 '/propagate/MODIFY/' + str(element_id), {'entry': entry, 'seq': res}, 'POST'))
             thread.daemon=True
