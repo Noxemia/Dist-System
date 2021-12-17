@@ -30,10 +30,11 @@ try:
 
     # This functions will add an new element
 
-    def add_new_element_to_store(entry_sequence, element, is_propagated_call=False):
+    def add_new_element_to_store(entry_sequence, element,s eq, is_propagated_call=False):
         global board, node_id
         success = False
         try:
+            seq_board[entry_sequence] = seq
             if entry_sequence not in board:
                 board[int(entry_sequence)] = element
                 success = True
@@ -42,10 +43,11 @@ try:
         return success
 
     # This function will update an existing element in the board dictionary
-    def modify_element_in_store(entry_sequence, modified_element, is_propagated_call=False):
-        global board, node_id
+    def modify_element_in_store(entry_sequence, modified_element,seq, is_propagated_call=False):
+        global board, node_id, seq_board
         success = False
         try:
+            seq_board[entry_sequence] = seq
             board[int(entry_sequence)] = modified_element
             success = True
         except Exception as e:
@@ -57,6 +59,7 @@ try:
         global board, node_id
         success = False
         try:
+            seq_board[entry_sequence] = -1
             board.pop(int(entry_sequence))
             success = True
         except Exception as e:
@@ -108,7 +111,7 @@ try:
             element_id = str(random.randint(0, 1000))
             while element_id in board:
                 element_id = str(random.randint(0, 1000))
-            add_new_element_to_store(element_id, new_entry)
+            add_new_element_to_store(element_id, new_entry, res)
 
             # Then we propagate the new element
             thread=Thread(target=propagate_to_vessels, args=(
@@ -137,9 +140,10 @@ try:
         # If a post request is received on board/elementid with the request data of delete = 0 we call the modify function with
         # the data received.
         if delete_option == "0":
-            modify_element_in_store(element_id, entry, True)
+            res = int(time.time()*1000)
+            modify_element_in_store(element_id, entry,res, True)
             thread=Thread(target=propagate_to_vessels, args=(
-                '/propagate/MODIFY/' + str(element_id), {'entry': entry}, 'POST'))
+                '/propagate/MODIFY/' + str(element_id), {'entry': entry, 'seq': res}, 'POST'))
             thread.daemon=True
             thread.start()
 
@@ -165,17 +169,14 @@ try:
         # Handle requests
         # for example action == "ADD":
         if action == "ADD":
-            seq_board[element_id] = seq
-            add_new_element_to_store(element_id, entry, True)
+            add_new_element_to_store(element_id, entry,seq, True)
 
         # Modify the board entry
         if action == "MODIFY":
-            seq_board[element_id] = seq
-            modify_element_in_store(element_id, entry, True)
+            modify_element_in_store(element_id, entry,seq, True)
 
         # Delete the entry from the board
         if action == "DELETE":
-            seq_board[element_id] = -1
             delete_element_from_store(element_id, True)
 
     # ------------------------------------------------------------------------------------------------------
