@@ -65,37 +65,6 @@ try:
     # You will probably need to modify them
     # ------------------------------------------------------------------------------------------------------
     
-    #This functions will add an new element
-    def add_new_element_to_store(entry_sequence, element, is_propagated_call=False):
-        global board, node_id
-        success = False
-        try:
-           if entry_sequence not in board:
-                board[entry_sequence] = element
-                success = True
-        except Exception as e:
-            print (e)
-        return success
-
-    def modify_element_in_store(entry_sequence, modified_element, is_propagated_call = False):
-        global board, node_id
-        success = False
-        try:
-            print("You need to implement the modify function")
-            success = True
-        except Exception as e:
-            print (e)
-        return success
-
-    def delete_element_from_store(entry_sequence, is_propagated_call = False):
-        global board, node_id
-        success = False
-        try:
-            print("You need to implement the delete function")
-            success = True
-        except Exception as e:
-            print (e)
-        return success
 
     # ------------------------------------------------------------------------------------------------------
     # ROUTES
@@ -117,77 +86,7 @@ try:
     
     #------------------------------------------------------------------------------------------------------
     
-    # You NEED to change the follow functions
-    @app.post('/board')
-    def client_add_received():
-        '''Adds a new element to the board
-        Called directly when a user is doing a POST request on /board'''
-        global board, node_id
-        try:
-            new_entry = request.forms.get('entry')
-
-            element_id = 1 # you need to generate a entry number
-            add_new_element_to_store(element_id, new_entry)
-
-            # you should propagate something
-            # Please use threads to avoid blocking
-            # thread = Thread(target=???,args=???)
-            # For example: thread = Thread(target=propagate_to_vessels, args=....)
-            # you should create the thread as a deamon with thread.daemon = True
-            # then call thread.start() to spawn the thread
-
-            # Propagate action to all other nodes example :
-            thread = Thread(target=propagate_to_vessels,
-                            args=('/propagate/ADD/' + str(element_id), {'entry': new_entry}, 'POST'))
-            thread.daemon = True
-            thread.start()
-            return True
-        except Exception as e:
-            print (e)
-        return False
-
-    @app.post('/board/<element_id:int>/')
-    def client_action_received(element_id):
-        global board, node_id
-        
-        print ("You receive an element")
-        print ("id is "), node_id
-        # Get the entry from the HTTP body
-        entry = request.forms.get('entry')
-        
-        delete_option = request.forms.get('delete') 
-	    #0 = modify, 1 = delete
-	    
-        print ("the delete option is ", delete_option)
-        
-        #call either delete or modify
-        modify_element_in_store(element_id, entry, False)
-        
-        delete_element_from_store(element_id, False)
-        
-        #propage to other nodes
-        thread = Thread(target=propagate_to_vessels,
-                            args=('/propagate/DELETEorMODIFY/' + str(element_id), {'entry': entry}, 'POST'))
-        thread.daemon = True
-        thread.start()
-
-    #With this function you handle requests from other nodes like add modify or delete
-    @app.post('/propagate/<action>/<element_id>')
-    def propagation_received(action, element_id):
-	    #get entry from http body
-        entry = request.forms.get('entry')
-        print ("the action is", action)
-        
-        # Handle requests
-        # for example action == "ADD":
-        #add_new_element_to_store(element_id, entry, True)
-        
-        # Modify the board entry 
-        #modify_element_in_store(element_id, entry, True)
-        
-        # Delete the entry from the board
-        #delete_element_from_store(element_id, True)
-
+    
 
     # ------------------------------------------------------------------------------------------------------
     # DISTRIBUTED COMMUNICATIONS FUNCTIONS
