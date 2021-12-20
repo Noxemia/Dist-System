@@ -114,7 +114,7 @@ try:
         for id, vessel in vessel_list.items():
             print(id, type(id), node_id, type(node_id))
             if int(id) != node_id:
-                payload = json.dumps({"votes":bvotes.pop(0)})
+                payload = {"votes" : json.dumps(bvotes.pop(0))}
                 print(payload)
                 contact_vessel(vessel, "/collect_votes", payload, "POST")
 
