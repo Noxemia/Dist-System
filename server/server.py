@@ -192,6 +192,7 @@ try:
     def vote_attack():
         global votes, vessel_list, node_id, byzantine
         byzantine = True
+        votes.append(False)
         bvotes = compute_byzantine_vote_round1(3, len(vessel_list), True)
         try: 
             index = 0
