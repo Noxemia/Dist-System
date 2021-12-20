@@ -204,13 +204,15 @@ try:
                 if node_id - 1 == index:
                     index += 1
 
+                print("ip: ", vessel_list[index])
+
                 if vote:
                     requests.post('http://{}/add/attack'.format(vessel_list[index]))
                 else:
                     requests.post('http://{}/add/retreat'.format(vessel_list[index]))
 
         except Exception as e:
-            print(e)
+            print("error", e)
         all_votes()
 
     @app.get('/vote/result')
