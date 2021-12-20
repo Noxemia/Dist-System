@@ -204,7 +204,7 @@ try:
                 if node_id - 1 == index:
                     index += 1
 
-                print("ip: ", vessel_list)
+                print("ip: ", vessel_list[str(index)])
 
                 if vote:
                     requests.post('http://{}/add/attack'.format(vessel_list[str(index)]))
