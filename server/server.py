@@ -111,8 +111,9 @@ try:
     def prop_bvotes_to_all():
         global vessel_list, node_id
         bvotes = compute_byzantine_vote_round2(3, 4, True)
-        bvl = vessel_list.pop(node_id-1)
-        for vessel in bvl:
+        for i, vessel in enumerate(vessel_list):
+            if i == node_id - 1:
+                continue
             contact_vessel(vessel, "/collect_votes", bvotes.pop(0), "POST")
 
 
