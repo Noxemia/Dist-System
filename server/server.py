@@ -197,7 +197,7 @@ try:
         bvotes = compute_byzantine_vote_round1(3, len(vessel_list), True)
         try: 
             index = 0
-            for vote in bvotes:
+            for i, vote in enumerate(bvotes):
                 # skip ourselves!!!!
                 if node_id - 1 == index:
                     index += 1
