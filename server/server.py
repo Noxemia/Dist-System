@@ -27,6 +27,8 @@ try:
 
     result = "Result is: ..."
 
+    byzantine = False
+
     # Simple methods that the byzantine node calls to decide what to vote.
     # Compute byzantine votes for round 1, by trying to create
     # a split decision.
@@ -93,39 +95,51 @@ try:
     # ------------------------------------------------------------------------------------------------------
 
     def all_votes():
-        global votes, vessel_list, total_votes
+        global votes, vessel_list, byzantine
         print("Called all votes")
-        if len(votes) == len(vessel_list):
+        if len(votes) == len(vessel_list) and not byzantine:
             payload = {"votes": json.dumps(votes)}
             thread = Thread(target=propagate_to_vessels,
                         args=('/collect_votes', payload, 'POST'))
             thread.daemon = True
             thread.start()
-            total_votes.append(votes)
+        elif len(votes) == len(vessel_list) and byzantine:
+            thread = Thread(target=prop_bvotes_to_all)
+            thread.daemon = True
+            thread.start()
+
+    def prop_bvotes_to_all():
+        global vessel_list, node_id
+        bvotes = compute_byzantine_vote_round2(3, 4, True)
+        bvl = vessel_list.pop(node_id-1)
+        for vessel in bvl:
+            contact_vessel(vessel, "/collect_votes", bvotes.pop(0), "POST")
 
 
     def calc_winner():
-        global result,total_votes
-        final_vec = []
-        for i in range(len(total_votes[0])):
-            compval = total_votes[0][i]
-            differ = False
-            for list in total_votes:
-                if list[i] != compval:
-                    differ = True
-            if not differ:
-                final_vec.append(compval)
-        atccnt = 0
-        retcnt = 0
-        for val in final_vec:
-            if val:
-                atccnt += 1
-            else:
-                retcnt += 1
-        if atccnt >= retcnt:
-            result = "Result is attack!"
-        else:
-            result = "Result is retreat!"
+        global result, total_votes
+        print(total_votes)
+
+        # final_vec = []
+        # for i in range(len(total_votes[0])):
+        #     compval = total_votes[0][i]
+        #     differ = False
+        #     for list in total_votes:
+        #         if list[i] != compval:
+        #             differ = True
+        #     if not differ:
+        #         final_vec.append(compval)
+        # atccnt = 0
+        # retcnt = 0
+        # for val in final_vec:
+        #     if val:
+        #         atccnt += 1
+        #     else:
+        #         retcnt += 1
+        # if atccnt >= retcnt:
+        #     result = "Result is attack!"
+        # else:
+        #     result = "Result is retreat!"
 
 
     @app.post("/collect_votes")
@@ -135,7 +149,7 @@ try:
         lvotes = json.loads(votes)
         total_votes.append(lvotes)
         print("total votes: ", total_votes)
-        if len(total_votes) == len(vessel_list):
+        if len(total_votes) == len(vessel_list) - 1:
             calc_winner()
 
 
@@ -176,12 +190,21 @@ try:
 
     @app.post('/vote/byzantine')
     def vote_attack():
-        global votes, vessel_list
+        global votes, vessel_list, node_id, byzantine
+        byzantine = True
         bvotes = compute_byzantine_vote_round1(3, len(vessel_list), True)
-        #for vote in 
         try: 
-            res = requests.post(
-                        'http://{}{}'.format(vessel_ip, path), data=payload)
+            index = 0
+            for vote in bvotes:
+                # skip ourselves!!!!
+                if node_id - 1 == index:
+                    index += 1
+
+                if vote:
+                    requests.post('http://{}/add/attack'.format(vessel_list[index]))
+                else:
+                    requests.post('http://{}/add/retreat'.format(vessel_list[index]))
+
         except Exception as e:
             print(e)
         all_votes()
