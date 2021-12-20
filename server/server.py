@@ -112,8 +112,11 @@ try:
         global vessel_list, node_id
         bvotes = compute_byzantine_vote_round2(3, 4, True)
         for id, vessel in vessel_list.items():
+            print(id, type(id), node_id, type(node_id))
             if int(id) != node_id:
-                contact_vessel(vessel, "/collect_votes", bvotes.pop(0), "POST")
+                payload = bvotes.pop(0)
+                print(payload)
+                contact_vessel(vessel, "/collect_votes", payload, "POST")
 
 
     def calc_winner():
