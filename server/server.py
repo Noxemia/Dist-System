@@ -195,9 +195,11 @@ try:
         byzantine = True
         votes.append(False)
         bvotes = compute_byzantine_vote_round1(3, len(vessel_list), True)
+        print(bvotes)
         try: 
             index = 0
             for i, vote in enumerate(bvotes):
+                print(vote)
                 # skip ourselves!!!!
                 if node_id - 1 == index:
                     index += 1
