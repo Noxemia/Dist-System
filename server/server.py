@@ -211,6 +211,7 @@ try:
                     requests.post('http://{}/add/attack'.format(vessel_list[str(index)]))
                 else:
                     requests.post('http://{}/add/retreat'.format(vessel_list[str(index)]))
+                index += 1
 
         except Exception as e:
             print("error", e)
