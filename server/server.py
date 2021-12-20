@@ -201,7 +201,8 @@ try:
             for i, vote in enumerate(bvotes):
                 print(vote)
                 # skip ourselves!!!!
-                if int(node_id) - 1 == index:
+                print(type(node_id), " ", node_id, " ", index)
+                if int(node_id) == index:
                     index += 1
 
                 print("ip: ", vessel_list[str(index)])
