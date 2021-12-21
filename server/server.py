@@ -172,8 +172,8 @@ try:
     @app.post("/collect_votes")
     def collect_votes():
         global total_votes, vessel_list, votes
-        votes = request.forms.get('votes')
-        lvotes = json.loads(votes)
+        rvotes = request.forms.get('votes')
+        lvotes = json.loads(rvotes)
         total_votes.append(lvotes)
         print("total votes: ", total_votes)
         if len(total_votes) == len(vessel_list) - 1:
