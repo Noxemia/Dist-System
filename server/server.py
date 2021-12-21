@@ -130,7 +130,7 @@ try:
             falses = 0
             # for each row get the ith(column) element and count occ of true and false
             for row in total_votes:
-                if row[i] == "True":
+                if row[i] == True:
                     trues +=1
                 else:
                     falses +=1
@@ -144,6 +144,7 @@ try:
                 #None will represent unknown
                 print("Column", i, "resuluted in Unknown with ", trues, falses, "as amt trues and falses")
                 final_vec.append(None)
+        result = final_vec
 
         # for i in range(len(total_votes[0])):
         #     compval = total_votes[0][i]
