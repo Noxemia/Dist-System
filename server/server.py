@@ -178,7 +178,7 @@ try:
         lvotes = json.loads(votes)
         total_votes.append(lvotes)
         print("total votes: ", total_votes)
-        if len(total_votes) == len(vessel_list) - 1:
+        if len(total_votes) == len(vessel_list):
             calc_winner()
 
 
