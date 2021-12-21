@@ -260,10 +260,11 @@ try:
                 truth +=1
             else:
                 failiur += 1
-        if truth >= failiur:
+        if truth >= failiur and truth + failiur > 0:
             return json.dumps(result) + " ATTACk!"
-        else:
+        elif  truth + failiur > 0:
             return json.dumps(result) + " HolD!"
+        return "Result is: ..."
         
 
     # ------------------------------------------------------------------------------------------------------
