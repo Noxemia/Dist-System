@@ -108,10 +108,9 @@ try:
             thread = Thread(target=prop_bvotes_to_all)
             thread.daemon = True
             thread.start()
-            total_votes.append(votes)
 
     def prop_bvotes_to_all():
-        global vessel_list, node_id
+        global vessel_list, node_id, total_votes, votes
         bvotes = compute_byzantine_vote_round2(3, 4, True)
         for id, vessel in vessel_list.items():
             print(id, type(id), node_id, type(node_id))
@@ -119,6 +118,7 @@ try:
                 payload = {"votes" : json.dumps(bvotes.pop(0))}
                 print(payload)
                 contact_vessel(vessel, "/collect_votes", payload, "POST")
+        total_votes.append(votes)
 
 
     def calc_winner():
