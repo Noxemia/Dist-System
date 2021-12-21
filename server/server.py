@@ -23,7 +23,11 @@ try:
 
     votes = []
 
-    total_votes = [None, None, None, None]
+    total_votes = []
+
+    for _ in range(len(vessel_list)):
+        total_votes.append(None)
+
 
     result = "Result is: ..."
 
