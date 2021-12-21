@@ -25,9 +25,12 @@ try:
 
     total_votes = []
 
-    for _ in range(len(vessel_list)):
-        total_votes.append(None)
-
+    def init():
+        global vessel_list
+        for _ in range(len(vessel_list)):
+            total_votes.append(None)
+    
+    init()
 
     result = "Result is: ..."
 
