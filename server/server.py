@@ -253,7 +253,18 @@ try:
     @app.get('/vote/result')
     def vote_results():
         global result
-        return json.dumps(result)
+        truth = 0
+        failiur = 0
+        for vote in result:
+            if vote:
+                truth +=1
+            else:
+                failiur += 1
+        if truth >= failiur:
+            return json.dumps(result) + " ATTACk!"
+        else:
+            return json.dumps(result) + " HolD!"
+        
 
     # ------------------------------------------------------------------------------------------------------
     # DISTRIBUTED COMMUNICATIONS FUNCTIONS
