@@ -256,9 +256,9 @@ try:
         truth = 0
         failiur = 0
         for vote in result:
-            if vote:
+            if vote == True:
                 truth +=1
-            else:
+            elif vote == False:
                 failiur += 1
         if truth >= failiur and truth + failiur > 0:
             return json.dumps(result) + " ATTACk!"
