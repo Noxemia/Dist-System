@@ -95,7 +95,7 @@ try:
     # ------------------------------------------------------------------------------------------------------
 
     def all_votes():
-        global votes, vessel_list, byzantine
+        global votes, vessel_list, byzantine, total_votes
         print("Called all votes")
         if len(votes) == len(vessel_list) and not byzantine:
             payload = {"votes": json.dumps(votes)}
@@ -103,10 +103,12 @@ try:
                         args=('/collect_votes', payload, 'POST'))
             thread.daemon = True
             thread.start()
+            total_votes.append(votes)
         elif len(votes) == len(vessel_list) and byzantine:
             thread = Thread(target=prop_bvotes_to_all)
             thread.daemon = True
             thread.start()
+            total_votes.append(votes)
 
     def prop_bvotes_to_all():
         global vessel_list, node_id
@@ -129,7 +131,9 @@ try:
             trues = 0
             falses = 0
             # for each row get the ith(column) element and count occ of true and false
-            for row in total_votes:
+            for y, row in enumerate(total_votes):
+                if i == y:
+                    continue
                 if row[i] == True:
                     trues +=1
                 else:
