@@ -123,7 +123,28 @@ try:
         global result, total_votes
         print(total_votes)
 
-        # final_vec = []
+        final_vec = []
+        # for each column
+        for i in range(len(total_votes[0])):
+            trues = 0
+            falses = 0
+            # for each row get the ith(column) element and count occ of true and false
+            for row in total_votes:
+                if row[i] == "True":
+                    trues +=1
+                else:
+                    falses +=1
+            if trues > falses:
+                print("Column", i, "resuluted in True with ", trues, falses, "as amt trues and falses")
+                final_vec.append(True)
+            elif falses > trues:
+                print("Column", i, "resuluted in False with ", trues, falses, "as amt trues and falses")
+                final_vec.append(False)
+            elif falses == trues:
+                #None will represent unknown
+                print("Column", i, "resuluted in Unknown with ", trues, falses, "as amt trues and falses")
+                final_vec.append(None)
+
         # for i in range(len(total_votes[0])):
         #     compval = total_votes[0][i]
         #     differ = False
