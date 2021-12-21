@@ -103,7 +103,6 @@ try:
                         args=('/collect_votes', payload, 'POST'))
             thread.daemon = True
             thread.start()
-            total_votes.append(votes)
         elif len(votes) == len(vessel_list) and byzantine:
             thread = Thread(target=prop_bvotes_to_all)
             thread.daemon = True
@@ -118,7 +117,6 @@ try:
                 payload = {"votes" : json.dumps(bvotes.pop(0))}
                 print(payload)
                 contact_vessel(vessel, "/collect_votes", payload, "POST")
-        total_votes.append(votes)
 
 
     def calc_winner():
@@ -173,12 +171,13 @@ try:
 
     @app.post("/collect_votes")
     def collect_votes():
-        global total_votes, vessel_list
+        global total_votes, vessel_list, votes
         votes = request.forms.get('votes')
         lvotes = json.loads(votes)
         total_votes.append(lvotes)
         print("total votes: ", total_votes)
-        if len(total_votes) == len(vessel_list):
+        if len(total_votes) == len(vessel_list) - 1:
+            total_votes.append(votes)
             calc_winner()
 
 
