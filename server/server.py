@@ -116,7 +116,7 @@ try:
 
     def prop_bvotes_to_all():
         global vessel_list, node_id, total_votes, votes
-        bvotes = compute_byzantine_vote_round2(3, 4, True)
+        bvotes = compute_byzantine_vote_round2(len(vessel_list) - 1, len(vessel_list), True)
         for id, vessel in vessel_list.items():
             print(id, type(id), node_id, type(node_id))
             if int(id) != node_id:
@@ -227,7 +227,7 @@ try:
         global votes, vessel_list, node_id, byzantine
         byzantine = True
         votes.append(False)
-        bvotes = compute_byzantine_vote_round1(3, len(vessel_list), True)
+        bvotes = compute_byzantine_vote_round1(len(vessel_list) - 1, len(vessel_list), True)
         print(bvotes)
         try: 
             index = 1
