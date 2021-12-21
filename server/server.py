@@ -23,7 +23,7 @@ try:
 
     votes = []
 
-    total_votes = []
+    total_votes = [None,None,None,]
 
     def init():
         global vessel_list
@@ -304,7 +304,6 @@ try:
         args = parser.parse_args()
         node_id = args.nid
         vessel_list = dict()
-        init()
         # We need to write the other vessels IP, based on the knowledge of their number
         for i in range(1, args.nbv+1):
             vessel_list[str(i)] = '10.1.0.{}'.format(str(i))
