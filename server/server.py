@@ -23,7 +23,7 @@ try:
 
     votes = []
 
-    total_votes = [None,None,None,]
+    total_votes = []
 
     def init():
         global vessel_list
@@ -307,7 +307,7 @@ try:
         # We need to write the other vessels IP, based on the knowledge of their number
         for i in range(1, args.nbv+1):
             vessel_list[str(i)] = '10.1.0.{}'.format(str(i))
-
+        init()
         try:
             run(app, host=vessel_list[str(node_id)], port=port)
         except Exception as e:
