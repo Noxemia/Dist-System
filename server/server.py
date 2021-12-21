@@ -176,9 +176,8 @@ try:
         rindex = request.forms.get("id")
         total_votes[int(rindex)] = json.loads(rvotes)
         print("total votes: ", total_votes)
-        if len(total_votes) == len(vessel_list) - 1:
-
-            total_votes[node_id - 1](votes)
+        total_votes[node_id - 1] = votes
+        if not None in total_votes:
             calc_winner()
 
 
