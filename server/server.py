@@ -23,7 +23,7 @@ try:
 
     votes = []
 
-    total_votes = []
+    total_votes = [None, None, None, None]
 
     result = "Result is: ..."
 
@@ -95,10 +95,10 @@ try:
     # ------------------------------------------------------------------------------------------------------
 
     def all_votes():
-        global votes, vessel_list, byzantine, total_votes
+        global votes, vessel_list, byzantine, total_votes, node_id
         print("Called all votes")
         if len(votes) == len(vessel_list) and not byzantine:
-            payload = {"votes": json.dumps(votes)}
+            payload = {"votes": json.dumps(votes), "id":str(node_id - 1)}
             thread = Thread(target=propagate_to_vessels,
                         args=('/collect_votes', payload, 'POST'))
             thread.daemon = True
@@ -114,7 +114,7 @@ try:
         for id, vessel in vessel_list.items():
             print(id, type(id), node_id, type(node_id))
             if int(id) != node_id:
-                payload = {"votes" : json.dumps(bvotes.pop(0))}
+                payload = {"votes" : json.dumps(bvotes.pop(0)), "id":str(node_id - 1)}
                 print(payload)
                 contact_vessel(vessel, "/collect_votes", payload, "POST")
 
@@ -173,11 +173,12 @@ try:
     def collect_votes():
         global total_votes, vessel_list, votes
         rvotes = request.forms.get('votes')
-        lvotes = json.loads(rvotes)
-        total_votes.append(lvotes)
+        rindex = request.forms.get("id")
+        total_votes[int(rindex)] = json.loads(rvotes)
         print("total votes: ", total_votes)
         if len(total_votes) == len(vessel_list) - 1:
-            total_votes.append(votes)
+
+            total_votes[node_id - 1](votes)
             calc_winner()
 
 
