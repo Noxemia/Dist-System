@@ -216,7 +216,7 @@ try:
 
 
         boards=[]
-        seq_boards = []
+        time_boards = []
 
         compboard = {}
         for key in board.keys():
@@ -227,36 +227,48 @@ try:
             compseq_boards[str(key)] = seq_board.get(key)
 
 
-        boards.append(compboard)
-        seq_boards.append(compseq_boards)
+       
 
         for vessel_id, vessel_ip in vessel_list.items():
             if int(vessel_id) != node_id:  # don't propagate to yourself
                 res=requests.get('http://{}/get_board'.format(vessel_ip))
                 if res.status_code == 200:
                     boards.append(res.json().get('board'))
-                    seq_boards.append(res.json().get('seq_board'))
+                    time_boards.append(res.json().get('seq_board'))
+
+        boards.insert(node_id, compboard)
+        time_boards.insert(node_id, compseq_boards)
+
 
         # board(msgid: msg)
         # seq_board(msgid: seq)
         # dict = {msgid: (seq, msg)}
         data = {}
-        for i in range((len(seq_boards))):
-            for k in seq_boards[i].keys():
-                data[str(k)] = (-2, "")
+
+        for i in range((len(time_boards))):
+            for k in time_boards[i].keys():
+                data[str(k)] = (-2, "", 0)
+
+
+        
 
 
         for i in range(len(boards)):
-            iseq_board = seq_boards[i]
+            iseq_board = time_boards[i]
             iboard = boards[i]
             for id in iseq_board.keys():
                 try:
                     msg = iboard.get(id)
-                    seq_bm = int(iseq_board.get(id))
-                    if  seq_bm > int(data.get(str(id))[0]) and int(data.get(str(id))[0]) != -1:
-                        data[str(id)] = (seq_bm, msg)
-                    if seq_bm == -1:
-                        data[id] = (seq_bm, None)
+                    timestamp = int(iseq_board.get(id))
+                        # if timestamp is greater then an old one update it
+                    if  timestamp > int(data.get(str(id))[0]) and int(data.get(str(id))[0]) != -1:
+                        data[str(id)] = (timestamp, msg, i)
+                        # if timestamp on two items are the same use node id to determine who should have presidence
+                    if  timestamp == int(data.get(str(id))[0]) and int(data.get(str(id))[0]) != -1:
+                        if i > int(data.get(str(id))[2]):
+                            data[str(id)] = (timestamp, msg, i)
+                    if timestamp == -1:
+                        data[id] = (timestamp, None)
                 except Exception as e:
                     print(e)
         newboard = {}
